@@ -22,6 +22,10 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :sowproject, Sowproject.Accounts.Guardian,
+  issuer: "sowproject",
+  secret_key: "W7z5x5NiP7MHh/icllft6W7vqtwYeIoGhqJevHpW0umRE4Tb0vjO9PCEnaxKCGnf"
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
