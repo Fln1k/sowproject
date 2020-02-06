@@ -44,7 +44,8 @@ defmodule Sowproject.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:comeonin, "~> 2.5"},
-      {:guardian, "~> 0.12.0"}
+      {:guardian, "~> 0.12.0"},
+      {:bamboo, "~> 1.1"},
     ]
   end
 

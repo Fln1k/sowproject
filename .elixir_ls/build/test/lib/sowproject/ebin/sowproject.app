@@ -2,7 +2,7 @@
              [{applications,[kernel,stdlib,elixir,logger,runtime_tools,
                              gettext,jason,comeonin,phoenix_pubsub,postgrex,
                              ecto_sql,phoenix_html,plug_cowboy,phoenix,
-                             guardian,phoenix_ecto]},
+                             guardian,bamboo,phoenix_ecto]},
               {description,"sowproject"},
               {modules,['Elixir.Sowproject','Elixir.Sowproject.Accounts',
                         'Elixir.Sowproject.Accounts.User',

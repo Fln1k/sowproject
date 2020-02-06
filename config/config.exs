@@ -7,8 +7,9 @@
 # General application configuration
 use Mix.Config
 
-config :sowproject,
-  ecto_repos: [Sowproject.Repo]
+config :sowproject, Sowproject.Mailer,
+  ecto_repos: [Sowproject.Repo],
+  adapter: Bamboo.LocalAdapter
 
 # Configures the endpoint
 config :sowproject, SowprojectWeb.Endpoint,
