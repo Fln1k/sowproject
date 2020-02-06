@@ -20,7 +20,7 @@ defmodule Sowproject.MixProject do
   def application do
     [
       mod: {Sowproject.Application, []},
-      extra_applications: [:logger, :runtime_tools,:bamboo, :bamboo_smtp]
+      extra_applications: [:logger, :runtime_tools, :bamboo, :bamboo_smtp]
     ]
   end
 

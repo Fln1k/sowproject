@@ -27,4 +27,8 @@ defmodule Sowproject.Auth do
   def logout(conn) do
     Guardian.Plug.sign_out(conn)
   end
+
+  def gen_magick_token(user) do
+    Comeonin.Bcrypt.hashpwsalt(user.email <> "+" <> user.password)
+  end
 end
