@@ -1,3 +1,3 @@
 defmodule SowprojectWeb.UserView do
-    use SowprojectWeb, :view
-  end
+  use SowprojectWeb, :view
+end

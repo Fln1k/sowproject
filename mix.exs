@@ -43,7 +43,8 @@ defmodule Sowproject.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:comeonin, "~> 2.5"}
+      {:comeonin, "~> 2.5"},
+      {:guardian, "~> 0.12.0"}
     ]
   end
 

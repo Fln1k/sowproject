@@ -11,7 +11,7 @@ defmodule Sowproject.Accounts.User do
 
   @required_fields ~w(email)a
   @optional_fields ~w()a
-  
+
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, @required_fields ++ @optional_fields)
@@ -28,11 +28,13 @@ defmodule Sowproject.Accounts.User do
 
   defp hash_password(changeset) do
     case changeset do
-      %Ecto.Changeset{valid?: true,
-                      changes: %{password: password}} ->
-        put_change(changeset,
-                   :password,
-                   Comeonin.Bcrypt.hashpwsalt(password))
+      %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
+        put_change(
+          changeset,
+          :password,
+          Comeonin.Bcrypt.hashpwsalt(password)
+        )
+
       _ ->
         changeset
     end
