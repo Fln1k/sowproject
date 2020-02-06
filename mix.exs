@@ -20,7 +20,7 @@ defmodule Sowproject.MixProject do
   def application do
     [
       mod: {Sowproject.Application, []},
-      extra_applications: [:logger, :runtime_tools,:bamboo, :bamboo_smtp]
+      extra_applications: [:logger, :runtime_tools, :bamboo, :bamboo_smtp]
     ]
   end
 
@@ -33,6 +33,7 @@ defmodule Sowproject.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:sans_password, "~> 1.0.0"},
       {:phoenix, "~> 1.4.12"},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
@@ -44,7 +45,7 @@ defmodule Sowproject.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:comeonin, "~> 2.5"},
-      {:guardian, "~> 0.12.0"},
+      {:guardian, "~> 1.0.0"},
       {:bamboo, "~> 1.1"},
       {:bamboo_smtp, "~> 2.1.0"}
     ]

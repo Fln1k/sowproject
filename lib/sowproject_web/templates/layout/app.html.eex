@@ -21,6 +21,9 @@
   <% else %>
     <li><%= link "Sign up", to: Routes.user_path(@conn, :new) %></li>
     <li><%= link "Sign in", to: Routes.session_path(@conn, :new) %></li>
+    <li><%= link "Forgot password", to: "/users/login/forgotpassword" %></li>
+
+    
   <% end %>
 </ul>
   </nav>
