@@ -1,8 +1,7 @@
 defmodule SowprojectWeb.PageController do
   use SowprojectWeb, :controller
 
-  def index(conn, _) do
-    user = Guardian.Plug.current_resource(conn)
-    render(conn, "index.html", current_user: user)
+  def index(conn, _params) do
+    render(conn, "index.html")
   end
 end

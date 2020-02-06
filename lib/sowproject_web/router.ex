@@ -9,29 +9,18 @@ defmodule SowprojectWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :auth do
-    plug Sowproject.Accounts.Pipeline
+  pipeline :api do
+    plug :accepts, ["json"]
   end
 
-  # We use ensure_auth to fail if there is no one logged in
-  pipeline :ensure_auth do
-    plug Guardian.Plug.EnsureAuthenticated
-  end
-
-  # Maybe logged in routes
   scope "/", SowprojectWeb do
-    pipe_through [:browser, :auth]
+    pipe_through :browser
 
     get "/", PageController, :index
-    get "/login", SessionController, :new
-    post "/login", SessionController, :login
-    get "/logout", SessionController, :logout
   end
 
-  # Definitely logged in scope
-  scope "/", SowprojectWeb do
-    pipe_through [:browser, :auth, :ensure_auth]
-
-    get "/protected", PageController, :protected
-  end
+  # Other scopes may use custom stacks.
+  # scope "/api", SowprojectWeb do
+  #   pipe_through :api
+  # end
 end
