@@ -7,6 +7,8 @@
               {modules,['Elixir.Sowproject','Elixir.Sowproject.Accounts',
                         'Elixir.Sowproject.Accounts.User',
                         'Elixir.Sowproject.Application',
+                        'Elixir.Sowproject.Auth',
+                        'Elixir.Sowproject.CurrentUser',
                         'Elixir.Sowproject.DataCase',
                         'Elixir.Sowproject.GuardianSerializer',
                         'Elixir.Sowproject.Repo','Elixir.SowprojectWeb',

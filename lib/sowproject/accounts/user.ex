@@ -21,6 +21,7 @@ defmodule Sowproject.Accounts.User do
   def registration_changeset(struct, params) do
     struct
     |> changeset(params)
+    |> unique_constraint(:email)
     |> cast(params, ~w(password)a, [])
     |> validate_length(:password, min: 6, max: 100)
     |> hash_password
