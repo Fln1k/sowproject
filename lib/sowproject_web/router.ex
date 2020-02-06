@@ -23,7 +23,11 @@ defmodule SowprojectWeb.Router do
     pipe_through [:browser, :with_session]
 
     get "/", PageController, :index
-    resources "/users", UserController, only: [:show, :new, :create]
+    get "/users/login/forgotpassword", UserController, :password_new
+    get "/restorepassword",UserController, :callback
+    post "/users/login/forgotpassword/sendrecoverylink", UserController, :change_pass_request
+    post "/update", UserController, :update
+    resources "/users", UserController, only: [:show, :new, :create, :update]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 

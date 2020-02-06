@@ -21,6 +21,8 @@ defmodule Sowproject.Accounts do
     Repo.all(User)
   end
 
+  def get_user_by_params(params), do:  Repo.get_by(User, params)
+
   @doc """
   Gets a single user.
 
@@ -68,8 +70,7 @@ defmodule Sowproject.Accounts do
 
   """
   def update_user(%User{} = user, attrs) do
-    user
-    |> User.changeset(attrs)
+    User.changeset(user, %{}) |> Ecto.Changeset.change(attrs)
     |> Repo.update()
   end
 

@@ -40,4 +40,10 @@ defmodule Sowproject.Accounts.User do
         changeset
     end
   end
+
+  def gen_token(email) do
+    Comeonin.Bcrypt.hashpwsalt(
+      Sowproject.Accounts.get_user_by_params(%{email: email}).password
+    )
+  end
 end
