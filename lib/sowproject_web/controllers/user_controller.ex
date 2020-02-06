@@ -15,12 +15,15 @@ defmodule SowprojectWeb.UserController do
 
   def create(conn, %{"user" => user_params}) do
     changeset = %User{} |> User.registration_changeset(user_params)
+
     case Sowproject.Repo.insert(changeset) do
       {:ok, user} ->
+        Sowproject.Email.welcome_html_email(user.email) |> Sowproject.Mailer.deliver_now
         conn
-        |> SimpleAuth.Auth.login(user)
+        |> Sowproject.Auth.login(user)
         |> put_flash(:info, "#{user.email} created!")
         |> redirect(to: Routes.user_path(conn, :show, user))
+
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end

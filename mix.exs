@@ -20,7 +20,7 @@ defmodule Sowproject.MixProject do
   def application do
     [
       mod: {Sowproject.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools,:bamboo, :bamboo_smtp]
     ]
   end
 
@@ -46,6 +46,7 @@ defmodule Sowproject.MixProject do
       {:comeonin, "~> 2.5"},
       {:guardian, "~> 0.12.0"},
       {:bamboo, "~> 1.1"},
+      {:bamboo_smtp, "~> 2.1.0"}
     ]
   end
 

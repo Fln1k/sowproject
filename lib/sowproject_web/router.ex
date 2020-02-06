@@ -24,7 +24,6 @@ defmodule SowprojectWeb.Router do
 
     get "/", PageController, :index
     resources "/users", UserController, only: [:show, :new, :create]
-
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
