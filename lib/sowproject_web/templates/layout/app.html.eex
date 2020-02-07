@@ -24,9 +24,8 @@
                     <% end %>
                 </li>
                 <li>
-                   
                     <%= link to: "#", class: "nav-link"  do %>
-                     <i class="large material-icons">notifications_none</i>
+                    <i class="large material-icons">notifications_none</i>
                     <% end %>
                 </li>
                 <li>
@@ -34,51 +33,50 @@
                     <i class="large material-icons">exit_to_app</i>
                     <% end %>
                 </li>
-                            </ul>
-        </div>
-<div class="white nav-content">
-      <ul class="tabs tabs-transparent">
-        <li class="tab"><a class="active" href="#WorkStatement" style="color: black">Work Statement</a></li>
-        <li class="tab"><a href="#Budget" style="color: black">Budget</a></li>
-        <li class="tab"><a href="#Timing" style="color: black">Timing</a></li>
-        <li class="tab"><a href="#Documents" style="color: black">Documents</a></li>
-        <li class="tab"><a href="#Backlog" style="color: black">Backlog</a></li>
-        <li class="tab"><a href="#TechStack" style="color: black">Tech Stack</a></li>
-        <li class="tab"><a href="#Developers" style="color: black">Developers</a></li>
-      </ul>
-                <% else %>
-                <li>
-                    <%= link "Sign up", to: Routes.user_path(@conn, :new) %>
-                </li>
-                <li>
-                    <%= link "Sign in", to: Routes.session_path(@conn, :new) %>
-                </li>
-                <li>
-                    <%= link "Forgot password", to: "/users/login/forgotpassword" %>
-                </li>
             </ul>
-                <%end%>
-                        </div>
-                            </nav>
-
-
+        </div>
+        <div class="white nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a class="active" href="#WorkStatement" style="color: black">Work Statement</a></li>
+                <li class="tab"><a href="#Budget" style="color: black">Budget</a></li>
+                <li class="tab"><a href="#Timing" style="color: black">Timing</a></li>
+                <li class="tab"><a href="#Documents" style="color: black">Documents</a></li>
+                <li class="tab"><a href="#Backlog" style="color: black">Backlog</a></li>
+                <li class="tab"><a href="#TechStack" style="color: black">Tech Stack</a></li>
+                <li class="tab"><a href="#Developers" style="color: black">Developers</a></li>
+            </ul>
+            <% else %>
+            <li>
+                <%= link "Sign up", to: Routes.user_path(@conn, :new) %>
+            </li>
+            <li>
+                <%= link "Sign in", to: Routes.session_path(@conn, :new) %>
+            </li>
+            <li>
+                <%= link "Forgot password", to: "/users/login/forgotpassword" %>
+            </li>
+            </ul>
+            <%end%>
+        </div>
+    </nav>
     <main role="main" class="container">
         <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
         <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
     </main>
     <%= render @view_module, @view_template, assigns %>
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.8/mammoth.browser.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>
     ">
     </script>
-      <script>
-    $(document).ready(function(){
-$('.tabs').tabs();
-$('.indicator').css('background', 'indigo');
+    <script>
+    $(document).ready(function() {
+        $('.tabs').tabs();
+        $('.indicator').css('background', 'indigo');
     });
-  </script>
-  <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    </script>
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 </body>
 
 </html>
