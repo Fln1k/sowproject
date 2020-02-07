@@ -15,7 +15,7 @@
 <body>
     <nav class="nav-extended">
         <div class="indigo darken-1 nav-wrapper">
-            <a href="#!" class="brand-logo"><i class="material-icons">format_align_left</i>Scope.Of.Work</a>
+            <i class="brand-logo"><i class="material-icons">format_align_left</i>Scope.Of.Work</i>
             <ul class="right hide-on-med-and-down">
                 <%= if @current_user do %>
                 <li>
@@ -78,6 +78,7 @@ $('.tabs').tabs();
 $('.indicator').css('background', 'indigo');
     });
   </script>
+  <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 </body>
 
 </html>

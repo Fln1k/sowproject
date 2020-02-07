@@ -22,7 +22,7 @@ defmodule SowprojectWeb.Router do
   scope "/", SowprojectWeb do
     pipe_through [:browser, :with_session]
 
-    get "/", SessionController, :new
+    get "/", PageController, :index
     get "/users/login/forgotpassword", UserController, :password_new
     get "/restorepassword", UserController, :callback
     post "/users/login/forgotpassword/sendrecoverylink", UserController, :change_pass_request

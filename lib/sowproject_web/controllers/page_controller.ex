@@ -11,7 +11,6 @@ defmodule SowprojectWeb.PageController do
       conn
     else
       conn
-      |> put_flash(:error, "Sign In first")
       |> redirect(to: Routes.session_path(conn, :new))
       |> halt
     end

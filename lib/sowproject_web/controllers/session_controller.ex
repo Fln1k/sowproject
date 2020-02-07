@@ -10,7 +10,6 @@ defmodule SowprojectWeb.SessionController do
     case Sowproject.Auth.login_by_email_and_pass(conn, email, password) do
       {:ok, conn} ->
         conn
-        |> put_flash(:info, "You’re now signed in!")
         |> redirect(to: Routes.page_path(conn, :index))
 
       {:error, _reason, conn} ->
