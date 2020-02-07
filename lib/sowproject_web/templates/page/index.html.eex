@@ -1,5 +1,5 @@
 <div id="WorkStatement" class="col s12">
-    <table style="height:600px; width:100%; overflow:hidden;">
+    <table style="height:650px; width:100%; overflow:hidden;">
         <tr>
             <td style="border: 0px; heigth:60%; width:45%;">
                 <center>
@@ -9,7 +9,7 @@
                 <input type="file" id="myFile" multiple size="50" onchange="parseWordDocxFile(this)">
                 <textarea id="demo" style="width:100%; min-height:60%; resize: none;" oninput="setdefaultareassize()"></textarea>
             </td>
-            <td rowspan="2" style="width:55%; border-left: 1px solid grey;">Task</td>
+            <td rowspan="2" style="width:55%; border-left: 1px solid grey;"><textarea id="TaskArea" oninput="FillDisabledTaskArea()"></textarea></td>
         </tr>
         <tr>
             <td style="height:40%; border: 0px ;">Chat</td>
@@ -28,17 +28,14 @@ function parseWordDocxFile(inputElement) {
     reader.onloadend = function(event) {
       var arrayBuffer = reader.result;
       mammoth.extractRawText({arrayBuffer: arrayBuffer}).then(function (resultObject) {
-        $('input[type="file"]').val(null);
-        setdefaultareassize()
         var area = document.getElementById("demo")
         area.value = resultObject.value
+                $('input[type="file"]').val(null);
+        setdefaultareassize()
       })
     };
     reader.readAsArrayBuffer(file);
   }
-
-
-    </script>
     </script>
 </div>
 <!--  ################################################################################# -->
@@ -46,7 +43,7 @@ function parseWordDocxFile(inputElement) {
     <table style="height:600px; width:100%; overflow:hidden;">
         <tr>
             <td style="width:45%">Budget</td>
-            <td style="width:55%; border-left: 1px solid grey;">Task</td>
+            <td style="width:55%; border-left: 1px solid grey;"><textarea name="DisabledTaskArea" style="height:90%" disabled></textarea></td>
         </tr>
     </table>
 </div>
@@ -55,7 +52,7 @@ function parseWordDocxFile(inputElement) {
     <table style="height:600px; width:100%; overflow:hidden;">
         <tr>
             <td style="width:60%">Diagram</td>
-            <td style="width:40%; border-left: 1px solid grey;">Task</td>
+            <td style="width:40%; border-left: 1px solid grey;"><textarea name="DisabledTaskArea" style="height:90%" disabled></textarea></td>
         </tr>
     </table>
 </div>

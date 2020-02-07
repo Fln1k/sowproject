@@ -9,6 +9,12 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <style>
+    .CodeMirror, .CodeMirror-scroll {
+	height: 85%;
+}
+    </style>
     <%= csrf_meta_tag() %>
 </head>
 
@@ -70,12 +76,21 @@
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>
     ">
     </script>
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script>
     $(document).ready(function() {
         $('.tabs').tabs();
         $('.indicator').css('background', 'indigo');
     });
     </script>
+<script>
+var simplemde = new SimpleMDE({ element: document.getElementById("TaskArea") });
+simplemde.codemirror.on("change", function(){
+	console.log(simplemde.value());
+    edit_areas = document.getElementsByName("DisabledTaskArea");
+    for (let e of edit_areas) { e.value = simplemde.value(); }
+});
+</script>
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 </body>
 
