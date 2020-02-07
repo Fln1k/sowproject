@@ -1,9 +1,3 @@
-
-    <ul class="sidenav" id="mobile-demo">
-    <li><a href="sass.html">Sass</a></li>
-    <li><a href="badges.html">Components</a></li>
-    <li><a href="collapsible.html">JavaScript</a></li>
-  </ul>
   <div id="WorkStatement" class="col s12">Work Statement</div>
   <div id="Budget" class="col s12">Budget</div>
   <div id="Timing" class="col s12">Timing</div>
