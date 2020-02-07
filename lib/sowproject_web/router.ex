@@ -29,6 +29,7 @@ defmodule SowprojectWeb.Router do
     post "/update", UserController, :update
     resources "/users", UserController, only: [:show, :new, :create, :update]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/pages", PageController
   end
 
   # Other scopes may use custom stacks.

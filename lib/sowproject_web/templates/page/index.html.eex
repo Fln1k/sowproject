@@ -1,35 +1,76 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>A productive web framework that<br/>does not compromise speed or maintainability.</p>
-</section>
-
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
-    <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.4/CHANGELOG.md">v1.4 Changelog</a>
-      </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-      </li>
-      <li>
-        <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-    </ul>
-  </article>
-</section>
+<div id="WorkStatement" class="col s12">
+  <table style="height:600px; width:100%; overflow:hidden;">
+    <tr>
+      <td style="border-bottom: 1px solid grey; heigth:60%; width:45%;">
+        <center>
+        <input placeholder="Type your project title" style="width: 60%;">
+        </center>
+      Type description below or upload a file<br>
+      <input type="file" id="myFile" multiple size="50" onchange="myFunction()">
+      <textarea id="demo" style="width:100%; min-height:60%; resize: none;" oninput="setdefaultareassize()"></textarea>
+      </td>
+      <td rowspan="2" style="width:55%; border-left: 1px solid grey;">Task</td>
+    </tr>
+    <tr>
+      <td style="height:40%;">Chat</td>
+    </tr>
+  </table>
+  <script>
+  function setdefaultareassize(){
+    area = document.getElementById("demo")
+    area.style.height = "60."+area.textLength%2+"%"
+  }
+  function myFunction(){
+    var fileInput = document.getElementById("myFile");
+    var file = fileInput.files[0];
+    var textType = /text.*/;
+    var area = document.getElementById("demo")
+    if (file.type.match(textType)) {
+      console.log("match")
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          console.log("read "+reader.result)
+            var content = reader.result;
+            area.value = content;
+            $('input[type="file"]').val(null);
+            setdefaultareassize()
+        }
+        
+        reader.readAsText(file);	
+    } else {
+        alert("File not supported!")
+    }
+  }
+  </script>
+</div>
+<!--  ################################################################################# -->
+<div id="Budget" class="col s12">
+  <table style="height:600px; width:100%; overflow:hidden;">
+    <tr>
+      <td style="width:45%">Budget</td>
+      <td style="width:55%; border-left: 1px solid grey;">Task</td>
+    </tr>
+  </table>
+</div>
+<!--  ################################################################################# -->
+<div id="Timing" class="col s12">
+  <table style="height:600px; width:100%; overflow:hidden;">
+    <tr>
+      <td style="width:60%">Diagram</td>
+      <td style="width:40%; border-left: 1px solid grey;">Task</td>
+    </tr>
+  </table>
+</div>
+<!--  ################################################################################# -->
+<div id="Documents" class="col s12">Documents
+</div>
+<!--  ################################################################################# -->
+<div id="Backlog" class="col s12">Backlog
+</div>
+<!--  ################################################################################# -->
+<div id="TechStack" class="col s12">Tech Stack
+</div>
+<!--  ################################################################################# -->
+<div id="Developers" class="col s12">Developers
+</div>
+        
