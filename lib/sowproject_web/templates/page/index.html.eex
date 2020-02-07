@@ -1,35 +1,14 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>A productive web framework that<br/>does not compromise speed or maintainability.</p>
-</section>
 
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
-    <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.4/CHANGELOG.md">v1.4 Changelog</a>
-      </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-      </li>
-      <li>
-        <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-    </ul>
-  </article>
-</section>
+    <ul class="sidenav" id="mobile-demo">
+    <li><a href="sass.html">Sass</a></li>
+    <li><a href="badges.html">Components</a></li>
+    <li><a href="collapsible.html">JavaScript</a></li>
+  </ul>
+  <div id="WorkStatement" class="col s12">Work Statement</div>
+  <div id="Budget" class="col s12">Budget</div>
+  <div id="Timing" class="col s12">Timing</div>
+  <div id="Documents" class="col s12">Documents</div>
+  <div id="Backlog" class="col s12">Backlog</div>
+  <div id="TechStack" class="col s12">Tech Stack</div>
+  <div id="Developers" class="col s12">Developers</div>
+        
