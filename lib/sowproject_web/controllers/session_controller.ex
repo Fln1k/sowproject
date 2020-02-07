@@ -24,6 +24,6 @@ defmodule SowprojectWeb.SessionController do
     conn
     |> Sowproject.Auth.logout()
     |> put_flash(:info, "See you later!")
-    |> redirect(to: Routes.page_path(conn, :index))
+    |> redirect(to: Routes.session_path(conn, :new))
   end
 end

@@ -22,13 +22,14 @@ defmodule SowprojectWeb.Router do
   scope "/", SowprojectWeb do
     pipe_through [:browser, :with_session]
 
-    get "/", PageController, :index
+    get "/", SessionController, :new
     get "/users/login/forgotpassword", UserController, :password_new
     get "/restorepassword", UserController, :callback
     post "/users/login/forgotpassword/sendrecoverylink", UserController, :change_pass_request
     post "/update", UserController, :update
     resources "/users", UserController, only: [:show, :new, :create, :update]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/pages", PageController
   end
 
   # Other scopes may use custom stacks.
