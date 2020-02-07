@@ -42,8 +42,19 @@ defmodule Sowproject.Accounts.User do
   end
 
   def gen_token(email) do
-    Comeonin.Bcrypt.hashpwsalt(
-      Sowproject.Accounts.get_user_by_params(%{email: email}).password
-    )
+    password =
+      Comeonin.Bcrypt.hashpwsalt(Sowproject.Accounts.get_user_by_params(%{email: email}).password)
+
+    token = Base.encode64("#{email}&#{password}")
+  end
+
+  def decode_token(params) do
+    case Base.decode64(params["token"]) do
+      {:ok, decode_params} ->
+        String.split(decode_params, "&")
+
+      :error ->
+        :error
+    end
   end
 end

@@ -30,7 +30,7 @@ defmodule Sowproject.Email do
     |> restore_password_text_email()
     # <= Assignments
     |> render("restore_password.html",
-      link: "http://localhost:4000/restorepassword?email=#{email}&token=#{token}",
+      link: "http://localhost:4000/restorepassword?token=#{token}",
       email_address: email
     )
   end
