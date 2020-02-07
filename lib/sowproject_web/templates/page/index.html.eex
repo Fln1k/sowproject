@@ -24,11 +24,15 @@
     var fileInput = document.getElementById("myFile");
     var file = fileInput.files[0];
     var textType = /text.*/;
+    var area = document.getElementById("demo")
     if (file.type.match(textType)) {
+      console.log("match")
         var reader = new FileReader();
         reader.onload = function(e) {
+          console.log("read "+reader.result)
             var content = reader.result;
-            document.getElementById("demo").innerHTML = content;
+            area.value = content;
+            $('input[type="file"]').val(null);
             setdefaultareassize()
         }
         
