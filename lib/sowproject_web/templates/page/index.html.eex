@@ -1,65 +1,63 @@
 <div id="WorkStatement" class="col s12">
-  <table style="height:600px; width:100%; overflow:hidden;">
-    <tr>
-      <td style="border-bottom: 1px solid grey; heigth:60%; width:45%;">
-        <center>
-        <input placeholder="Type your project title" style="width: 60%;">
-        </center>
-      Type description below or upload a file<br>
-      <input type="file" id="myFile" multiple size="50" onchange="myFunction()">
-      <textarea id="demo" style="width:100%; min-height:60%; resize: none;" oninput="setdefaultareassize()"></textarea>
-      </td>
-      <td rowspan="2" style="width:55%; border-left: 1px solid grey;">Task</td>
-    </tr>
-    <tr>
-      <td style="height:40%;">Chat</td>
-    </tr>
-  </table>
-  <script>
-  function setdefaultareassize(){
-    area = document.getElementById("demo")
-    area.style.height = "60."+area.textLength%2+"%"
-  }
-  function myFunction(){
-    var fileInput = document.getElementById("myFile");
-    var file = fileInput.files[0];
-    var textType = /text.*/;
-    var area = document.getElementById("demo")
-    if (file.type.match(textType)) {
-      console.log("match")
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          console.log("read "+reader.result)
-            var content = reader.result;
-            area.value = content;
-            $('input[type="file"]').val(null);
-            setdefaultareassize()
-        }
-        
-        reader.readAsText(file);	
-    } else {
-        alert("File not supported!")
+    <table style="height:600px; width:100%; overflow:hidden;">
+        <tr>
+            <td style="border: 0px; heigth:60%; width:45%;">
+                <center>
+                    <input placeholder="Type your project title" style="width: 60%;">
+                </center>
+                Type description below or upload a file<br>
+                <input type="file" id="myFile" multiple size="50" onchange="parseWordDocxFile(this)">
+                <textarea id="demo" style="width:100%; min-height:60%; resize: none;" oninput="setdefaultareassize()"></textarea>
+            </td>
+            <td rowspan="2" style="width:55%; border-left: 1px solid grey;">Task</td>
+        </tr>
+        <tr>
+            <td style="height:40%; border: 0px ;">Chat</td>
+        </tr>
+    </table>
+    <script>
+    function setdefaultareassize() {
+        area = document.getElementById("demo")
+        area.style.height = "60." + area.textLength % 2 + "%"
     }
+function parseWordDocxFile(inputElement) {
+    var files = inputElement.files || [];
+    if (!files.length) return;
+    var file = files[0];
+    var reader = new FileReader();
+    reader.onloadend = function(event) {
+      var arrayBuffer = reader.result;
+      mammoth.extractRawText({arrayBuffer: arrayBuffer}).then(function (resultObject) {
+        $('input[type="file"]').val(null);
+        setdefaultareassize()
+        var area = document.getElementById("demo")
+        area.value = resultObject.value
+      })
+    };
+    reader.readAsArrayBuffer(file);
   }
-  </script>
+
+
+    </script>
+    </script>
 </div>
 <!--  ################################################################################# -->
 <div id="Budget" class="col s12">
-  <table style="height:600px; width:100%; overflow:hidden;">
-    <tr>
-      <td style="width:45%">Budget</td>
-      <td style="width:55%; border-left: 1px solid grey;">Task</td>
-    </tr>
-  </table>
+    <table style="height:600px; width:100%; overflow:hidden;">
+        <tr>
+            <td style="width:45%">Budget</td>
+            <td style="width:55%; border-left: 1px solid grey;">Task</td>
+        </tr>
+    </table>
 </div>
 <!--  ################################################################################# -->
 <div id="Timing" class="col s12">
-  <table style="height:600px; width:100%; overflow:hidden;">
-    <tr>
-      <td style="width:60%">Diagram</td>
-      <td style="width:40%; border-left: 1px solid grey;">Task</td>
-    </tr>
-  </table>
+    <table style="height:600px; width:100%; overflow:hidden;">
+        <tr>
+            <td style="width:60%">Diagram</td>
+            <td style="width:40%; border-left: 1px solid grey;">Task</td>
+        </tr>
+    </table>
 </div>
 <!--  ################################################################################# -->
 <div id="Documents" class="col s12">Documents
@@ -73,4 +71,3 @@
 <!--  ################################################################################# -->
 <div id="Developers" class="col s12">Developers
 </div>
-        

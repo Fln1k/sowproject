@@ -6,8 +6,10 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "docx-parser": "^0.2.1",
     "phoenix": "file:../deps/phoenix",
-    "phoenix_html": "file:../deps/phoenix_html"
+    "phoenix_html": "file:../deps/phoenix_html",
+    "word-extractor": "^0.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
