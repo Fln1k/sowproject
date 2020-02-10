@@ -48,8 +48,8 @@ defmodule Sowproject.Accounts.User do
     token = Base.encode64("#{email}&#{password}")
   end
 
-  def decode_token(params) do
-    case Base.decode64(params["token"]) do
+  def decode_token(token) do
+    case Base.decode64(token) do
       {:ok, decode_params} ->
         String.split(decode_params, "&")
 

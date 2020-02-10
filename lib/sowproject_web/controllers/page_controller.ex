@@ -7,7 +7,7 @@ defmodule SowprojectWeb.PageController do
   end
 
   def is_sign_in(conn, _params) do
-    if Guardian.Plug.current_resource(conn) do
+    if conn.assigns[:current_user] do
       conn
     else
       conn
