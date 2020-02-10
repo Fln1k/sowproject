@@ -1,24 +1,24 @@
 <div id="WorkStatement" class="col s12">
     <table style="height:650px; width:100%; overflow:hidden;">
         <tr>
-            <td style="border: 0px; heigth:60%; width:45%;">
+            <td style="border: 0px; heigth:60%; width:45%; margin:0; padding:0; vertical-align:top;">
                 <center>
-                    <input placeholder="Type your project title" style="width: 60%;">
+                    <input id="ProjectTitle" placeholder="Type your project title" style="width: 60%;" oninput = "changeTaskTitle()">
                 </center>
                 Type description below or upload a file<br>
                 <input type="file" id="myFile" multiple size="50" onchange="parseWordDocxFile(this)">
-                <textarea id="demo" style="width:100%; min-height:60%; resize: none;" oninput="setdefaultareassize()"></textarea>
+                <textarea id="demo" style="width:100%; height:73%; resize: none;" oninput="setDefaultAreasSize()"></textarea>
             </td>
-            <td rowspan="2" style="width:55%; border-left: 1px solid grey;"><textarea id="TaskArea" oninput="FillDisabledTaskArea()"></textarea></td>
+            <td name="TaskArea" rowspan="2" style="vertical-align:top; width:55%; border-left: 1px solid grey; margin:0; padding:0"></td>
         </tr>
         <tr>
-            <td style="height:40%; border: 0px ;">Chat</td>
+            <td style="height:40%; border: 0px ; margin:0; padding:0">Chat</td>
         </tr>
     </table>
     <script>
-    function setdefaultareassize() {
+    function setDefaultAreasSize() {
         area = document.getElementById("demo")
-        area.style.height = "60." + area.textLength % 2 + "%"
+        area.style.height = "73." + area.textLength % 2 + "%"
     }
 function parseWordDocxFile(inputElement) {
     var files = inputElement.files || [];
@@ -36,23 +36,33 @@ function parseWordDocxFile(inputElement) {
     };
     reader.readAsArrayBuffer(file);
   }
+  function changeTaskTitle(){
+    TaskAreas = document.getElementsByName("TaskArea");
+    var old_task = TaskAreas[0].innerHTML.split("</h1>")[1];
+    var new_task = md.render('# '+document.getElementById("ProjectTitle").value);
+    if (old_task)
+    {
+        new_task+=old_task;
+    }
+    TaskAreas.forEach(element => element.innerHTML=new_task)
+  }
     </script>
 </div>
 <!--  ################################################################################# -->
 <div id="Budget" class="col s12">
-    <table style="height:600px; width:100%; overflow:hidden;">
+    <table style="height:650px; width:100%; overflow:hidden;">
         <tr>
-            <td style="width:45%">Budget</td>
-            <td style="width:55%; border-left: 1px solid grey;"><textarea name="DisabledTaskArea" style="height:90%" disabled></textarea></td>
+            <td style="width:45% margin:0; padding:0">Budget</td>
+            <td name="TaskArea" style="vertical-align:top; width:55%; border-left: 1px solid grey; margin:0; padding:0"></td>
         </tr>
     </table>
 </div>
 <!--  ################################################################################# -->
 <div id="Timing" class="col s12">
-    <table style="height:600px; width:100%; overflow:hidden;">
+    <table style="height:650px; width:100%; overflow:hidden;">
         <tr>
-            <td style="width:60%">Diagram</td>
-            <td style="width:40%; border-left: 1px solid grey;"><textarea name="DisabledTaskArea" style="height:90%" disabled></textarea></td>
+            <td style="width:60% margin:0; padding:0">Diagram</td>
+            <td name="TaskArea" style="vertical-align:top; width:40%; border-left: 1px solid grey; margin:0; padding:0"></td>
         </tr>
     </table>
 </div>
