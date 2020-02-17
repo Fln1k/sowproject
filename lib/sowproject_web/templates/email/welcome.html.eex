@@ -1,10 +1,10 @@
-  Hello <%= @email_address %>!
+Hello <%= @email_address %>!
 </p>
 <p>
-  <strong>just want to notificate you that
-  this email adress was used to create account
-  on Sowproject.com</strong>
+    <strong>just want to notificate you that
+        this email adress was used to create account
+        on Sowproject.com</strong>
 </p>
 <p>
-- Sow Project Team
+    - Sow Project Team
 </p>

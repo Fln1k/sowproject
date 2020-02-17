@@ -70,8 +70,8 @@ defmodule Sowproject.Accounts do
 
   """
   def update_user(%User{} = user, attrs) do
-    User.changeset(user, %{})
-    |> Ecto.Changeset.change(attrs)
+    user
+    |> User.registration_changeset(attrs)
     |> Repo.update()
   end
 

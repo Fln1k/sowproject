@@ -1,0 +1,246 @@
+<div id="WSLeft" style="width: 40%; height:100%; display: inline-block; vertical-align:top; padding:0; marging:0;">
+    <div id="top" class="top" onresize="changeBottomHeight()">
+        <center>
+            <input id="ProjectTitle" placeholder="Type your project title" style="width: 60%; text-align: center;" oninput="changeTask()">
+        </center>
+        <textarea id="demo" style="width:100%; height:90%; resize: none;" placeholder="Type your project description here or upload a file(only docx available)"></textarea>
+    </div>
+    <div id="splitter-horizontal" class="splitter-horizontal" style="width:100.8%">
+    </div>
+    <div id="bottom" class="bottom" style="position: relative; background: #ffffff">
+        <div style="margin-bottom: 10px;">
+            <img style="vertical-align:middle; height: 50px; border-radius: 50%;" src="<%= Routes.static_path(@conn, "/images/bot_logo.png") %>">
+            <span style="font-size: 20px;">Sam</span>
+        </div>
+        <div id="chatcontent" style="height: 75%; overflow: auto;">
+        </div>
+        <input id="questioninput" style="position:absolute; width: 90%; margin: 0% 5%;" placeholder="Type your answer..." onkeydown="answer_input(this)">
+    </div>
+</div>
+<div name="TaskArea" style="padding:0; marging:0; display: inline-block; width: 58%; height:100%; overflow:hidden; border-left: 1px solid grey;">
+    <center id="blank_task" style="position:relative; top:20%; visibility: visible;">
+        <div style="width:40%;">
+            <img src="<%= Routes.static_path(@conn, "/images/blank_task_image.png") %>">
+            <p>Nothing to formolize... yet</p>
+            <p style="opacity: 0.6">Start writing or upload a document to get formolized project description</p>
+        </div>
+    </center>
+</div>
+<!-- --------------------------------------------------------------------------------- -->
+<!-- -------------------------------------SCRIPTS------------------------------------- -->
+<!-- --------------------------------------------------------------------------------- -->
+<script>
+class Question {
+    constructor(promt, answers) {
+        this.promt = promt;
+        if (answers)
+            this.answers = [];
+        var counter = 0;
+        while (counter < answers.length) {
+            this.answers.push(new Answer(answers[counter], features[counter]));
+            ++counter;
+        }
+    }
+}
+
+class Answer {
+    constructor(value, feature, ) {
+        this.value = value;
+        this.feature = feature;
+    }
+}
+
+class Feature {
+    constructor(title, hours, budget) {
+        this.title = title;
+        this.hours = hours;
+        this.budget = budget;
+    }
+}
+
+var questions = []
+<%= for question <- @questions do %>
+    var answers = []
+    var feature_titles = []
+    var hours = []
+    var budget = []
+    <%= for answer <- question.answers do %>
+        answers.push("<%= answer %>")
+    <% end %>
+    <%= for feature <- question.features do %>
+        feature_titles.push("<%= if feature do feature else nil end %>")
+    <% end %>
+    <%= for hours <- question.hours do %>
+        hours.push("<%= if hours do hours else nil end %>")
+    <% end %>
+    <%= for budget <- question.budget do %>
+        budget.push("<%= if budget do budget else nil end %>")
+    <% end %>
+    features = []
+    for (var counter = 0; counter < answers.length; ++counter) {
+        if (feature_titles[counter])
+            features.push(new Feature(feature_titles[counter], hours[counter], budget[counter]))
+        else
+            features.push(false)
+    }
+    questions.push(new Question(
+        "<%= question.promt %>",
+        answers,
+        features
+    ))
+<% end %>
+
+var demo = document.getElementById("demo")
+if (window.FileReader) {
+    function dragEvent(ev) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        if (ev.type == 'drop') {
+            var reader = new FileReader();
+            reader.onloadend = function(ev) {
+                var arrayBuffer = this.result;
+                mammoth.extractRawText({ arrayBuffer: arrayBuffer }).then(function(resultObject) {
+                    demo.value = resultObject.value
+                })
+            };
+            reader.readAsArrayBuffer(ev.dataTransfer.files[0]);
+        }
+    }
+
+    demo.addEventListener('dragenter', dragEvent, false);
+    demo.addEventListener('dragover', dragEvent, false);
+    demo.addEventListener('drop', dragEvent, false);
+}
+
+function changeTask() {
+    TaskAreas = document.getElementsByName("TaskArea");
+    split_task = TaskAreas[0].innerHTML.split("</h2>");
+    if (split_task[1])
+        old_task = split_task[1]
+    else
+        old_task = split_task[0].split('<div style="position:relative; top:5%; left:5%;">')[1]
+    var new_task = md.render('## ' + document.getElementById("ProjectTitle").value)
+    if (old_task) {
+        new_task += old_task
+    }
+    new_task=`<div style="position:relative; top:5%; left:5%;">`+new_task
+    TaskAreas.forEach(element => element.innerHTML = new_task)
+    check_blank()
+}
+
+function check_blank() {
+    task = document.getElementsByName("TaskArea")[0].innerHTML.replace(/<[\S]+?><\/[\S]+>/gim, "").replace(/\s/g, "");
+    if (task.length <= 52) {
+         TaskAreas.forEach(element => element.innerHTML = `
+    <center id="blank_task" style="position:relative; top:20%; visibility: visible;">
+        <div style="width:40%;">
+            <img src="<%= Routes.static_path(@conn, "/images/blank_task_image.png") %>">
+            <p>Nothing to formolize... yet</p>
+            <p style="opacity: 0.6">Start writing or upload a document to get formolized project description</p>
+        </div>
+    </center>
+        `)
+    }
+}
+
+
+function CleanChildren(elem) {
+    var children = elem.childNodes;
+    var len = elem.childNodes.length;
+    for (var i = 0; i < len; ++i) {
+        var child = children[i];
+        if (child.hasChildNodes())
+            CleanChildren(child);
+        else
+            elem.removeChildNode(child);
+    }
+}
+
+$(".top").resizable({
+    handleSelector: ".splitter-horizontal",
+    resizeWidth: false,
+    onDrag: function f() {
+        document.getElementById("bottom").style.height =
+            (document.getElementById("WSLeft").offsetHeight -
+                document.getElementById("splitter-horizontal").offsetHeight -
+                document.getElementById("top").offsetHeight) + "px"
+    }
+});
+
+function answer_input(ele) {
+    if (event.key === 'Enter') {
+        var message = document.createElement("div")
+        message.setAttribute('class', 'usermessagediv slide-left');
+        message.setAttribute('style', 'margin-top:10px;');
+        message.textContent = ele.value
+        document.getElementById("chatcontent").appendChild(message)
+        ele.value = ""
+    }
+}
+generate_question(questions, questions.length - 1)
+
+function generate_question(questions, counter) {
+    question = questions[counter]
+    document.getElementById("chatcontent").innerHTML += '<div class="botmessagediv slide-right">' + question.promt + '</div>'
+    buttons = '<div class="slide-left" style="position: relative; right: -10%; margin-top: 10px; text-align: right;">'
+    for (const answer of question.answers) {
+        if (answer.feature)
+            var feature_title = answer.feature.title
+        else
+            var feature_title = ""
+        buttons += '<button name="answerbutton" class="waves-effect useranswerbutton" value="' + feature_title + '" onclick="add_feature(this,' + counter + ')">' + answer.value + '</button>'
+    }
+
+    buttons += '</div>'
+    document.getElementById("chatcontent").innerHTML += buttons
+}
+
+function search_feature_by_title(Key) {
+    for (var question_counter = 0; question_counter < questions.length; ++question_counter) {
+        if (questions[question_counter].answers) {
+            for (var answer_counter = 0; answer_counter < questions[question_counter].answers.length; ++answer_counter) {
+                if (questions[question_counter].answers[answer_counter].feature && questions[question_counter].answers[answer_counter].feature.title === Key) {
+                    return questions[question_counter].answers[answer_counter].feature;
+                }
+            }
+        }
+    }
+}
+
+function add_feature(ele, counter) {
+    document.getElementsByName("answerbutton").forEach(button => button.disabled = true);
+    if (ele.value) {
+        TaskAreas = document.getElementsByName("TaskArea");
+        if (document.getElementById("ProjectTitle").value.length > 0)
+            var old_task = TaskAreas[0].innerHTML.split("</h2>")[1].slice(0, -6);
+        else
+        if (!document.getElementById("blank_task"))
+            var old_task = TaskAreas[0].innerHTML.split('<div style="position:relative; top:5%; left:5%;">')[1].slice(0, -6);
+        else
+            var old_task = ""
+        var title = md.render('## ' + document.getElementById("ProjectTitle").value)
+        var new_feature = md.render('##### ' + ele.value)
+        new_task = title + old_task + new_feature
+        TaskAreas.forEach(element => element.innerHTML = `<div style="position:relative; top:5%; left:5%;">` + new_task.replace(/<[\S]+?><\/[\S]+>/gim, "") + `</div>`)
+        feature = search_feature_by_title(ele.value)
+        document.getElementById("priceTable").children[1].innerHTML = document.getElementById("priceTable").children[1].innerHTML.split('<tr id="add">')[0] + `
+    <tr>
+        <td><label><input type="checkbox"name="titlecheckbox" class="filled-in"><span style="font-size: 15px; color:black; font-weight: normal;" onclick="select_event_before_check(this)">` + feature.title + `</span></label></td>
+        <td>` + feature.hours + `</td>
+        <td>$ ` + feature.budget + `</td>
+        <td name="price_td">$ ` + feature.hours * feature.budget + `</td>
+    </tr>
+    <tr id="add">
+        <td><input placeholder="Add"></td>
+        <td><input placeholder="0" disabled></td>
+        <td><input placeholder="$ 0" disabled></td>
+        <td><input placeholder="$ 0" disabled></td>
+    </tr>
+    `
+    document.getElementsByName('titlecheckbox').forEach(checkbox => checkbox.checked = false)
+    check_blank()
+    }
+    if (counter > 0)
+        generate_question(questions, counter - 1)
+}
+</script>

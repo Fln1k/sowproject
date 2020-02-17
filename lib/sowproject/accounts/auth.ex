@@ -9,18 +9,22 @@ defmodule Sowproject.Auth do
   end
 
   def login_by_email_and_pass(conn, email, given_pass) do
-    user = Repo.get_by(User, email: email)
+    if email do
+      user = Repo.get_by(User, email: email)
 
-    cond do
-      user && checkpw(given_pass, user.password) ->
-        {:ok, login(conn, user)}
+      cond do
+        user && given_pass && checkpw(given_pass, user.password) ->
+          {:ok, login(conn, user)}
 
-      user ->
-        {:error, :unauthorized, conn}
+        user ->
+          {:error, :unauthorized, conn}
 
-      true ->
-        dummy_checkpw
-        {:error, :not_found, conn}
+        true ->
+          dummy_checkpw
+          {:error, :not_found, conn}
+      end
+    else
+      {:error, :unauthorized, conn}
     end
   end
 

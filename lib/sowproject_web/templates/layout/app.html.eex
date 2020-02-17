@@ -5,73 +5,36 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sowproject · Phoenix Framework</title>
+    <title>Scope of Work</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/RickStrahl/jquery-resizable/master/src/jquery-resizable.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/cowboy/jquery-resize/v1.1/jquery.ba-resize.js"></script>
     <style>
-    .CodeMirror, .CodeMirror-scroll {
-	height: 85%;
+        .CodeMirror, .CodeMirror-scroll {
+    height: 85%;
 }
     </style>
     <%= csrf_meta_tag() %>
 </head>
 
 <body>
-    <nav class="nav-extended">
-        <div class="indigo darken-1 nav-wrapper">
-            <i class="brand-logo"><i class="material-icons">format_align_left</i>Scope.Of.Work</i>
-            <ul class="right hide-on-med-and-down">
-                <%= if @current_user do %>
-                <li>
-                    <%= link to: "#", class: "nav-link"  do %>
-                    <i class="large material-icons">help_outline</i>
-                    <% end %>
-                </li>
-                <li>
-                    <%= link to: "#", class: "nav-link"  do %>
-                    <i class="large material-icons">notifications_none</i>
-                    <% end %>
-                </li>
-                <li>
-                    <%= link to: Routes.session_path(@conn, :delete,@current_user), class: "nav-link", method: "delete"  do %>
-                    <i class="large material-icons">exit_to_app</i>
-                    <% end %>
-                </li>
-            </ul>
-        </div>
-        <div class="white nav-content">
-            <ul class="tabs tabs-transparent">
-                <li class="tab"><a class="active" href="#WorkStatement" style="color: black">Work Statement</a></li>
-                <li class="tab"><a href="#Budget" style="color: black">Budget</a></li>
-                <li class="tab"><a href="#Timing" style="color: black">Timing</a></li>
-                <li class="tab"><a href="#Documents" style="color: black">Documents</a></li>
-                <li class="tab"><a href="#Backlog" style="color: black">Backlog</a></li>
-                <li class="tab"><a href="#TechStack" style="color: black">Tech Stack</a></li>
-                <li class="tab"><a href="#Developers" style="color: black">Developers</a></li>
-            </ul>
-            <% else %>
-            <li>
-                <%= link "Sign up", to: Routes.user_path(@conn, :new) %>
-            </li>
-            <li>
-                <%= link "Sign in", to: Routes.session_path(@conn, :new) %>
-            </li>
-            <li>
-                <%= link "Forgot password", to: "/users/login/forgotpassword" %>
-            </li>
-            </ul>
-            <%end%>
-        </div>
-    </nav>
-    <main role="main" class="container">
+    <%= if @current_user do %>
+    <%= render "authenticated.html", assigns %>
+    <% else %>
+    <%= render "unauthenticated.html",assigns %>
+    <% end %>
+    <main id="alerts" role="main" class="container">
         <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
         <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
     </main>
-    <%= render @view_module, @view_template, assigns %>
+    <div style="background: #f9fafc">
+        <%= render @view_module, @view_template, assigns %>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.8/mammoth.browser.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/10.0.0/markdown-it.min.js"></script>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>
@@ -84,8 +47,13 @@
         $('.tabs').tabs();
         $('.indicator').css('background', 'indigo');
     });
+
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('#alerts').fadeOut();
+        }, 2000);
+    })
     </script>
-    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 </body>
 
 </html>

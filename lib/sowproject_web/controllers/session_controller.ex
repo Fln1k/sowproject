@@ -1,6 +1,6 @@
 defmodule SowprojectWeb.SessionController do
   use SowprojectWeb, :controller
-  plug :scrub_params, "session" when action in ~w(create)a
+  plug(:scrub_params, "session" when action in ~w(create)a)
 
   def new(conn, _) do
     render(conn, "new.html")

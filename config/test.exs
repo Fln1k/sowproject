@@ -2,10 +2,7 @@ use Mix.Config
 
 # Configure your database
 config :sowproject, Sowproject.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "sowproject_test",
-  hostname: "localhost",
+  url: System.get_env("DATABASE_URL") || "postgres://postgres:postgres@localhost/sowproject_test",
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,

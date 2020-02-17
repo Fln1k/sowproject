@@ -7,9 +7,9 @@
 # General application configuration
 use Mix.Config
 
-config :sowproject, Sowproject.Mailer,
-  ecto_repos: [Sowproject.Repo],
-  adapter: Bamboo.LocalAdapter
+config :sowproject, ecto_repos: [Sowproject.Repo]
+
+config :sowproject, Sowproject.Mailer, adapter: Bamboo.LocalAdapter, from: "support@app.scopeofwork.ai"
 
 # Configures the endpoint
 config :sowproject, SowprojectWeb.Endpoint,
@@ -32,17 +32,6 @@ config :guardian, Guardian,
   verify_issuer: true,
   serializer: Sowproject.GuardianSerializer,
   secret_key: to_string(Mix.env()) <> "SuPerseCret_aBraCadabrA"
-
-config :sowproject, Sowproject.Mailer,
-  adapter: Bamboo.SMTPAdapter,
-  server: "smtp.gmail.com",
-  port: 587,
-  username: "sergeitrigubovfleps@gmail.com",
-  password: "saynotorasizm",
-  tls: :if_available,
-  ssl: false,
-  auth: :always,
-  retries: 1
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
