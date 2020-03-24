@@ -1,16 +1,25 @@
-<nav class="nav-extended">
-    <div class="indigo darken-1 nav-wrapper">
-        <i class="brand-logo"><i class="material-icons">format_align_left</i>Scope.Of.Work</i>
+<nav class="nav-extended indigo darken-1">
+    <div class="indigo darken-1 nav-wrapper" style="margin: 0 2%;">
+        <i class="brand-logo">
+            <i class="material-icons">format_align_left</i>
+            <span class="logo-text">Scope.Of.Work</span>
+            <span class="new badge demo-badge logo-text" data-badge-caption="DEMO"></span>
+        </i>
         <ul class="right hide-on-med-and-down">
             <li>
-                <%= link to: "#", class: "nav-link"  do %>
-                <i class="large material-icons">help_outline</i>
+                <%= link to: "#", class: "nav-link", onclick: "project_reset()"  do %>
+                <i class="large material-icons">delete</i>
                 <% end %>
             </li>
             <li>
-                <%= link to: "#", class: "nav-link"  do %>
-                <i class="large material-icons">notifications_none</i>
-                <% end %>
+                <a class="nav-link" onclick="download_pdf()">
+                    <i class="large material-icons">file_download</i>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" onclick="show_pdf()">
+                    <i class="large material-icons">remove_red_eye</i>
+                </a>
             </li>
             <li>
                 <%= link to: Routes.session_path(@conn, :delete,@current_user), class: "nav-link", method: "delete"  do %>
@@ -19,15 +28,113 @@
             </li>
         </ul>
     </div>
-    <div class="white nav-content">
-        <ul class="tabs tabs-transparent">
-            <li class="tab"><a class="active" href="#WorkStatement" style="color: black">Work Statement</a></li>
-            <li class="tab"><a href="#Budget" style="color: black">Budget</a></li>
-            <li class="tab"><a href="#Timing" style="color: black">Timing</a></li>
-            <li class="tab"><a href="#Documents" style="color: black">Documents</a></li>
-            <li class="tab"><a href="#Backlog" style="color: black">Backlog</a></li>
-            <li class="tab"><a href="#TechStack" style="color: black">Tech Stack</a></li>
-            <li class="tab"><a href="#Developers" style="color: black">Developers</a></li>
+    <div class="nav-content" style="background: #f7f9fb;">
+        <ul class="tabs tabs-transparent" style="border-bottom: 1.5px solid #ededed;">
+            <li class="tab"><a class="active" href="#WorkStatement" style="margin-top: -12px;color: #2c2d30;margin-left: 10%; text-transform: none; font-size: 16px; font-weight: 600;">Work Statement</a></li>
+            <li class="tab"><a href="#Budget" style="margin-top: -12px;color: #2c2d30; text-transform: none; font-size: 16px;font-weight: 600;">Budget</a></li>
+            <li class="tab"><a href="#Timing" style="margin-top: -12px;color: #2c2d30; text-transform: none; font-size: 16px; font-weight: 600;">Timing</a></li>
         </ul>
     </div>
+    <div id="download_pdf" class="modal">
+        <div class="modal-header" style="color: black; padding: 10px; font-size: 20px;">
+            Choose options please
+        </div>
+        <div class="modal-content">
+            <div style="display: inline-block;width: 50%">
+                <label>
+                    <input type="checkbox" class="filled-in" />
+                    <span style="color: black; font-size: 12px;">Title</span>
+                </label>
+                <label>
+                    <input type="checkbox" class="filled-in" />
+                    <span style="color: black; font-size: 12px;">Hours</span>
+                </label>
+            </div>
+            <div style="display: inline-block; font-size: 12px;">
+                <label>
+                    <input type="checkbox" class="filled-in" />
+                    <span style="color: black; font-size: 12px;">Rate</span>
+                </label>
+                <label>
+                    <input type="checkbox" class="filled-in" />
+                    <span style="color: black; font-size: 12px;">Cost</span>
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-close waves-effect waves-green btn-flat" onclick="download_pdf()">Download</a>
+            <a href="#" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+    function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+    }
+
+    function generate_pdf() {
+        var doc = new jsPDF()
+        var TaskArea = document.getElementsByName("TaskArea")[0];
+        var features = []
+        doc.setFontType('bold')
+        doc.setFontSize(50)
+        doc.text(project_title, 10, 25)
+        var counter = 1
+        var text = ""
+        for (const feature of results) {
+            text += counter + ". " + feature.title + "\n";
+            ++counter
+            features.push([feature.title, (feature.budget * 1).toFixed(1), (feature.hours * 1).toFixed(1), (feature.budget * feature.hours).toFixed(1)])
+
+        }
+        doc.setFontType('bold')
+        doc.setFontSize(15)
+        doc.text("Description:\n", 10, 35)
+        doc.setFontSize(10)
+        doc.setFontType('normal')
+        doc.text(doc.splitTextToSize(project_description, 180), 10, 45)
+        doc.addPage()
+        doc.setFontType('bold')
+        doc.setFontSize(15)
+        doc.text("Features List:\n", 10, 10)
+        doc.setFontSize(10)
+        doc.setFontType('italic')
+        doc.text(text, 20, 20)
+        doc.addPage()
+        doc.setFontType('bold')
+        doc.setFontSize(15)
+        doc.text("Budget Table\n", 10, 25)
+        doc.setFontSize(10)
+        doc.setFontType('italic')
+        doc.autoTable({
+            head: [
+                ['Feature', 'Rate', 'Hours', 'Price']
+            ],
+            body: features,
+            startY: 40,
+        })
+        doc.addPage()
+        doc.setFontType('bold')
+        doc.setFontSize(15)
+        doc.text(doc.splitTextToSize(`
+            * The estimate is provided and approved in USD. In case of payment in another currency, payment is made at the rate of the National Bank of the Republic of Belarus by the day of payment.\n\n
+
+            ** Total granted calculation is based on the principle economy by increasing the volume. If the specified scope of works will be added a new position or you will delete the existing position, this will affect the cost of other components of the budget.\n\n
+
+            "Velnats" LLC uses a simplified system of VAT taxation and is not a VAT payer. "Total with tax" is the amount to be paid by the client and it doesn't contain additional taxes or any other surcharges that can be withheld by the client under any legislation. Any other costs must be agreed and included in the estimate additionally if necessary.\n\n
+`, 180),20,15)
+        return doc
+    }
+
+    $(document).ready(function() {
+        $('.modal').modal();
+    });
+
+    function download_pdf() {
+        generate_pdf().save(project_title + '.pdf')
+    }
+
+    function show_pdf() {
+        window.open(URL.createObjectURL(generate_pdf().output("blob")))
+    }
+    </script>
 </nav>

@@ -5,12 +5,14 @@ defmodule Sowproject.Accounts.User do
   schema "users" do
     field(:email, :string)
     field(:password, :string)
+    field(:project_title, :string)
+    field(:project_description, :string)
 
     timestamps()
   end
 
   @required_fields ~w(email)a
-  @optional_fields ~w()a
+  @optional_fields ~w(project_title project_description)a
 
   def changeset(struct, params \\ %{}) do
     struct
@@ -42,10 +44,7 @@ defmodule Sowproject.Accounts.User do
   end
 
   def gen_token(email) do
-    password =
-      Comeonin.Bcrypt.hashpwsalt(
-        Sowproject.Repo.get_by(Sowproject.Accounts.User, %{email: email}).password
-      )
+    password = Comeonin.Bcrypt.hashpwsalt(Sowproject.Repo.get_by(Sowproject.Accounts.User, %{email: email}).password)
 
     token = Base.encode64("#{email}&#{password}")
   end

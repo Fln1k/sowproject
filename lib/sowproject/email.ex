@@ -4,7 +4,7 @@ defmodule Sowproject.Email do
   def welcome_html_email(email_address) do
     new_email()
     |> to(email_address)
-    |> from("support@sowproject.com")
+    |> from(Keyword.fetch!(Application.get_env(:sowproject, Sowproject.Mailer), :from))
     |> subject("Welcome Mail")
     |> render("welcome.html", email_address: email_address)
   end
@@ -12,9 +12,10 @@ defmodule Sowproject.Email do
   def restore_password_html_email(email_address, token) do
     new_email()
     |> to(email_address)
-    |> from(Application.get_env(:sowproject, Sowproject.Mailer)[:from])
+    |> from(Keyword.fetch!(Application.get_env(:sowproject, Sowproject.Mailer), :from))
     |> subject("Password Restore")
-    |> render("restore_password.html",
+    |> render(
+      "restore_password.html",
       link: "#{SowprojectWeb.Endpoint.url()}/restorepassword?token=#{token}",
       email_address: email_address
     )

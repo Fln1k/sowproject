@@ -1,0 +1,12 @@
+<div id="Gantt" style="width: 63%; height:100%; display: inline-block; vertical-align:top; padding:0; margin:0; border-right: 0.3px solid #ededed;">
+    Gant Here
+</div>
+<div name="TaskArea" style="padding:0; margin:0; display: inline-block; width: 35%;  height:100%; overflow-y:auto;">
+    <center id="blank_task" style="position:relative; top:20%; visibility: visible;">
+        <div style="width:40%;">
+            <img src="<%= Routes.static_path(@conn, "/images/blank_task_image.png") %>">
+            <p>Nothing to formolize... yet</p>
+            <p style="opacity: 0.6">Start writing or upload a document to get formolized project description</p>
+        </div>
+    </center>
+</div>

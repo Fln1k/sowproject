@@ -10,16 +10,14 @@ defmodule SowprojectWeb.Endpoint do
     signing_salt: "bv6VNPh/"
   ]
 
-  socket("/socket", SowprojectWeb.UserSocket,
-    websocket: true,
-    longpoll: false
-  )
+  socket("/socket", SowprojectWeb.UserSocket, websocket: true, longpoll: false)
 
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest
   # when deploying your static files in production.
-  plug(Plug.Static,
+  plug(
+    Plug.Static,
     at: "/",
     from: :sowproject,
     gzip: false,
@@ -37,7 +35,8 @@ defmodule SowprojectWeb.Endpoint do
   plug(Plug.RequestId)
   plug(Plug.Telemetry, event_prefix: [:phoenix, :endpoint])
 
-  plug(Plug.Parsers,
+  plug(
+    Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()

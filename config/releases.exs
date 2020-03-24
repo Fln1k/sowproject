@@ -56,4 +56,4 @@ config :sowproject, Sowproject.Mailer,
   ssl: false,
   auth: :always,
   retries: 1,
-  from: "support@app.scopeofwork.ai"
+  from: System.fetch_env!("GMAIL_SMTP_USERNAME")

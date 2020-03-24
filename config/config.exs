@@ -8,9 +8,6 @@
 use Mix.Config
 
 config :sowproject, ecto_repos: [Sowproject.Repo]
-
-config :sowproject, Sowproject.Mailer, adapter: Bamboo.LocalAdapter, from: "support@app.scopeofwork.ai"
-
 # Configures the endpoint
 config :sowproject, SowprojectWeb.Endpoint,
   url: [host: "localhost"],

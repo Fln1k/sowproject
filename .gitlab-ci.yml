@@ -1,0 +1,66 @@
+# install elixir manually because we need generated release to be binary compatible with target system - ubuntu 18.04
+image: ubuntu:18.04
+
+cache:
+  paths:
+  - deps
+
+stages:
+  - build_and_test
+  - deploy
+
+before_script:
+  - apt-get update -y && apt-get install -y --no-install-recommends wget curl ca-certificates gnupg build-essential
+  - wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb && dpkg -i erlang-solutions_2.0_all.deb
+  - curl -sL https://deb.nodesource.com/setup_12.x | bash -
+  - apt-get update -y && apt-get install -y --no-install-recommends esl-erlang=1:22.2.6-1 elixir=1.9.4-1 nodejs
+  - cp config/dev.exs.example config/dev.exs
+  - mix local.rebar --force
+  - mix local.hex --force
+  - mix deps.get
+
+test_build:
+  stage: build_and_test
+  services:
+    - postgres:12
+  variables:
+    POSTGRES_PASSWORD: "secretpwd"
+  script:
+    - export DATABASE_URL=postgres://postgres:$POSTGRES_PASSWORD@postgres/sowproject_test
+    - MIX_ENV=test mix compile
+    - mix test
+
+prod_build:
+  stage: build_and_test
+  script:
+    - MIX_ENV=prod mix compile
+    - npm run deploy --prefix ./assets
+    - MIX_ENV=prod mix phx.digest
+    - MIX_ENV=prod mix release
+  artifacts:
+    name: "sowproject_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - _build/prod/rel/sowproject
+  only:
+    - develop
+
+deploy:
+  stage: deploy
+  before_script:
+    - apt-get update -y && apt-get install -y --no-install-recommends openssh-client
+  needs:
+    - job: prod_build
+      artifacts: true
+  script:
+    - chmod 0600 $SSH_KEY
+    - scp -oStrictHostKeyChecking=no -i $SSH_KEY -r _build/prod/rel/sowproject sow@$TARGET_HOSTNAME:~/new_release
+    - ssh -oStrictHostKeyChecking=no -i $SSH_KEY sow@$TARGET_HOSTNAME "
+        set -e;
+        rm -rf old_release;
+        mv current_release old_release;
+        mv new_release current_release;
+        set -a && source ~/config/env.sh && set +a && ~/current_release/bin/sowproject eval 'Sowproject.Release.migrate()';
+        systemctl --user restart sow;
+        "
+  only:
+    - develop

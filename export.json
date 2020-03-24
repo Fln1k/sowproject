@@ -1,0 +1,995 @@
+{
+  "features": [
+    {
+      "id": 1,
+      "title": "Page \"Home\"",
+      "parent_id": 0,
+      "body": "First page where user gets into. Page contains from the several functional blocks.",
+      "time": 10.4,
+      "budget": 8.0,
+      "blocking": []
+    },
+    {
+      "id": 2,
+      "title": "block {block number}: header",
+      "parent_id": 1,
+      "body": "An area on a very top on the page. Contains:\n{repeat_header}",
+      "time": 0.65,
+      "budget": 0.5,
+      "blocking": []
+    },
+    {
+      "id": 3,
+      "title": "logo",
+      "parent_id": 2,
+      "body": "There is a logo with a link to the home page.",
+      "time": 0.13,
+      "budget": 0.1,
+      "blocking": []
+    },
+    {
+      "id": 4,
+      "title": "main menu",
+      "parent_id": 2,
+      "body": "main menu with the following items: {main_menu_list}. On all inner pages and by hover, the active link should be highlighted.",
+      "time": 0.65,
+      "budget": 0.5,
+      "blocking": []
+    },
+    {
+      "id": 5,
+      "title": "Repeat header",
+      "parent_id": 2,
+      "body": "Header remains unchanged for all sites’ pages.",
+      "time": 0.26,
+      "budget": 0.2,
+      "blocking": []
+    },
+    {
+      "id": 6,
+      "title": "block {block number}: main teaser",
+      "parent_id": 1,
+      "body": "Main teaser contain news and announcements of the upcoming events. It has the following structure: \n - background: thematic picture\n -content: changing images with title and following descriptions. All content is editable from content management system.Administrator can: \n- add a new slide, that contains from title, image, text (can be edited and stylish in HTML-editor)\n- hide/public slide\n- delete slide",
+      "time": 10.4,
+      "budget": 8.0,
+      "blocking": []
+    },
+    {
+      "id": 7,
+      "title": "block {block number}: footer",
+      "parent_id": 1,
+      "body": "An area on a very bottom on the page. Footer contains the following elements: {footer_content}",
+      "time": 1.3,
+      "budget": 1.0,
+      "blocking": []
+    },
+    {
+      "id": 8,
+      "title": "All Rights Reserved:",
+      "parent_id": 7,
+      "body": "text All Rights Reserved with the actual year in the end.",
+      "time": 0.13,
+      "budget": 0.1,
+      "blocking": []
+    },
+    {
+      "id": 9,
+      "title": "footer menu: ",
+      "parent_id": 7,
+      "body": "Footer menu should:  {footer_menu_duplicate}",
+      "time": 0.26,
+      "budget": 0.2,
+      "blocking": []
+    },
+    {
+      "id": 10,
+      "title": "repeat option:",
+      "parent_id": 9,
+      "body": "be repeated from the header main menu",
+      "time": 0.26,
+      "budget": 0.2,
+      "blocking": []
+    },
+    {
+      "id": 11,
+      "title": "\"contact us\":",
+      "parent_id": 9,
+      "body": "contain an active  link \"contact us\" - on click the mail manager opens with the option to write to site administration by email: {contact_email}",
+      "time": 0.26,
+      "budget": 0.2,
+      "blocking": []
+    },
+    {
+      "id": 12,
+      "title": "Repeat footer",
+      "parent_id": 7,
+      "body": "Footer remains unchanged for all sites’ pages.",
+      "time": 0.26,
+      "budget": 0.2,
+      "blocking": []
+    },
+    {
+      "id": 13,
+      "title": "Page \"Leagues\"",
+      "parent_id": 0,
+      "body": "We should add a list of leagues with\na set of editable parameters for every item. All elements should be separately edited in the content system.",
+      "time": 1.3,
+      "budget": 1.0,
+      "blocking": []
+    },
+    {
+      "id": 14,
+      "title": "block {block number}: header",
+      "parent_id": 13,
+      "body": "Header remains unchanged for all sites’ pages.",
+      "time": 0.13,
+      "budget": 0.1,
+      "blocking": []
+    },
+    {
+      "id": 15,
+      "title": "block {block number}: footer",
+      "parent_id": 13,
+      "body": "Footer remains unchanged for all sites’ pages.",
+      "time": 0.13,
+      "budget": 0.1,
+      "blocking": []
+    },
+    {
+      "id": 16,
+      "title": "search by list",
+      "parent_id": 13,
+      "body": "search is being through the current page’s content. Search results display as a list of items matching the search.",
+      "time": 3.9000000000000004,
+      "budget": 3.0,
+      "blocking": []
+    },
+    {
+      "id": 17,
+      "title": "data loading",
+      "parent_id": 13,
+      "body": "Content data load and edit from the content system by the users with appropriate permissions. It can be done in the following ways:",
+      "time": 6.5,
+      "budget": 5.0,
+      "blocking": []
+    },
+    {
+      "id": 18,
+      "title": "Form:",
+      "parent_id": 17,
+      "body": "Content edits through a special form in the content system.",
+      "time": 1.3,
+      "budget": 1.0,
+      "blocking": []
+    },
+    {
+      "id": 19,
+      "title": "Excel parsing:",
+      "parent_id": 17,
+      "body": "Content edits by using a parsing script from the excel document with a specific format that describes additionally.",
+      "time": 20.8,
+      "budget": 16.0,
+      "blocking": []
+    },
+    {
+      "id": 20,
+      "title": "API:",
+      "parent_id": 17,
+      "body": "Content updates through the integrated API from external services.",
+      "time": 104.0,
+      "budget": 80.0,
+      "blocking": []
+    },
+    {
+      "id": 21,
+      "title": "Scrapping:",
+      "parent_id": 17,
+      "body": "Content updates by web-scraping from specific resources.",
+      "time": 104.0,
+      "budget": 80.0,
+      "blocking": []
+    },
+    {
+      "id": 22,
+      "title": "product list",
+      "parent_id": 13,
+      "body": "We show a list of items on a screen with the following data:",
+      "time": 10.4,
+      "budget": 8.0,
+      "blocking": []
+    },
+    {
+      "id": 23,
+      "title": "filters & parameters",
+      "parent_id": 22,
+      "body": "We should add ABC filter for this list.",
+      "time": 2.6,
+      "budget": 2.0,
+      "blocking": []
+    },
+    {
+      "id": 24,
+      "title": "product card",
+      "parent_id": 22,
+      "body": "A card of the product describes the general information about every specific item. It consists of: {item_description_list} and {item_other_descriptions_list}.\nAll items information edits ( add/hide/edit/delete) in the content management system.",
+      "time": 7.800000000000001,
+      "budget": 6.0,
+      "blocking": []
+    },
+    {
+      "id": 25,
+      "title": "logo:",
+      "parent_id": 24,
+      "body": "logo esits in the content management system",
+      "time": 0.13,
+      "budget": 0.1,
+      "blocking": []
+    },
+    {
+      "id": 26,
+      "title": "title:",
+      "parent_id": 24,
+      "body": "title esits in the content management system",
+      "time": 0.26,
+      "budget": 0.2,
+      "blocking": []
+    },
+    {
+      "id": 27,
+      "title": "other:",
+      "parent_id": 24,
+      "body": "other",
+      "time": 0.0,
+      "budget": 0.0,
+      "blocking": []
+    },
+    {
+      "id": 28,
+      "title": "product page",
+      "parent_id": 22,
+      "body": "",
+      "time": 2.6,
+      "budget": 2.0,
+      "blocking": []
+    },
+    {
+      "id": 29,
+      "title": "no specific pages",
+      "parent_id": 28,
+      "body": "There is no specific page for a separate item from the list.",
+      "time": 1.3,
+      "budget": 1.0,
+      "blocking": []
+    },
+    {
+      "id": 30,
+      "title": "specific page",
+      "parent_id": 28,
+      "body": "A product page contains a full product description and opens in a separate browser bookmark. It contain the following list of paramentres: {specific_page_list}",
+      "time": 2.6,
+      "budget": 2.0,
+      "blocking": []
+    },
+    {
+      "id": 31,
+      "title": "Breadcrumbs",
+      "parent_id": 0,
+      "body": "We should add \"breadcrumbs\" for quick site navigation to all the inner pages.",
+      "time": 2.6,
+      "budget": 2.0,
+      "blocking": []
+    },
+    {
+      "id": 32,
+      "title": "External Statistics",
+      "parent_id": 0,
+      "body": "We should implement external services to follow users activity statistics.  ",
+      "time": 0.0,
+      "budget": 0.0,
+      "blocking": []
+    },
+    {
+      "id": 33,
+      "title": "Google Analytics.",
+      "parent_id": 32,
+      "body": "Please provide a code from your admin account to plug Google Analytics.",
+      "time": 7.800000000000001,
+      "budget": 6.0,
+      "blocking": []
+    },
+    {
+      "id": 34,
+      "title": "Yandex Metrica.",
+      "parent_id": 32,
+      "body": "Please provide a code from your admin account to plug Yandex Metrica.",
+      "time": 7.800000000000001,
+      "budget": 6.0,
+      "blocking": []
+    },
+    {
+      "id": 35,
+      "title": "User Management",
+      "parent_id": 0,
+      "body": "The system contains several roles for user with different permissions.",
+      "time": 20.8,
+      "budget": 16.0,
+      "blocking": []
+    },
+    {
+      "id": 36,
+      "title": "Owner",
+      "parent_id": 35,
+      "body": "Owner is a general account founder that has full permission options. The owner can add and edit other users' permissions. The owner can close the entire account.",
+      "time": 7.800000000000001,
+      "budget": 6.0,
+      "blocking": []
+    },
+    {
+      "id": 37,
+      "title": "Administrator",
+      "parent_id": 35,
+      "body": "Administrator has full access to the system. The administrator can change any settings and manage all users and content. The administrator can't close an account.",
+      "time": 7.800000000000001,
+      "budget": 6.0,
+      "blocking": []
+    },
+    {
+      "id": 38,
+      "title": "Moderator",
+      "parent_id": 35,
+      "body": "Moderator has limited access to the system, only for the content that the administrator/owner allows for this role.",
+      "time": 7.800000000000001,
+      "budget": 6.0,
+      "blocking": []
+    },
+    {
+      "id": 39,
+      "title": "Follower",
+      "parent_id": 35,
+      "body": "The follower doesn't have access to the content management system. He can only interact with public content.",
+      "time": 7.800000000000001,
+      "budget": 6.0,
+      "blocking": []
+    },
+    {
+      "id": 40,
+      "title": "Contact Page",
+      "parent_id": 0,
+      "body": "On this page user can find a bunch of information to contact with product administration.",
+      "time": 1.3,
+      "budget": 1.0,
+      "blocking": []
+    },
+    {
+      "id": 41,
+      "title": "contact form",
+      "parent_id": 40,
+      "body": "Contact form contains the following fields: email address, name, text area, button submit. All fields are necessary to fill.",
+      "time": 2.6,
+      "budget": 2.0,
+      "blocking": []
+    },
+    {
+      "id": 42,
+      "title": "email",
+      "parent_id": 40,
+      "body": "We should add a block with email address for quick response.",
+      "time": 1.3,
+      "budget": 1.0,
+      "blocking": []
+    },
+    {
+      "id": 43,
+      "title": "address",
+      "parent_id": 40,
+      "body": "Mail address with the full information should be provided.",
+      "time": 1.3,
+      "budget": 1.0,
+      "blocking": []
+    },
+    {
+      "id": 44,
+      "title": "map",
+      "parent_id": 40,
+      "body": "There is google map with set address should be added on a page.",
+      "time": 5.2,
+      "budget": 4.0,
+      "blocking": []
+    }
+  ],
+  "keyword_features": [
+    {
+      "keyword": "Back ",
+      "feature": 31,
+      "weight": 10
+    },
+    {
+      "keyword": "Breadcrumbs",
+      "feature": 31,
+      "weight": 100
+    },
+    {
+      "keyword": "contact",
+      "feature": 40,
+      "weight": 100
+    },
+    {
+      "keyword": "contacts",
+      "feature": 40,
+      "weight": 100
+    },
+    {
+      "keyword": "footer",
+      "feature": 7,
+      "weight": 100
+    },
+    {
+      "keyword": "Google Analytics.",
+      "feature": 32,
+      "weight": 100
+    },
+    {
+      "keyword": "Google Analytics.",
+      "feature": 33,
+      "weight": 100
+    },
+    {
+      "keyword": "in header",
+      "feature": 2,
+      "weight": 100
+    },
+    {
+      "keyword": "leagues",
+      "feature": 13,
+      "weight": 100
+    },
+    {
+      "keyword": "leagues",
+      "feature": 17,
+      "weight": 100
+    },
+    {
+      "keyword": "leagues",
+      "feature": 22,
+      "weight": 80
+    },
+    {
+      "keyword": "list of",
+      "feature": 17,
+      "weight": 100
+    },
+    {
+      "keyword": "list of",
+      "feature": 22,
+      "weight": 80
+    },
+    {
+      "keyword": "list of leagues",
+      "feature": 13,
+      "weight": 100
+    },
+    {
+      "keyword": "list of leagues",
+      "feature": 17,
+      "weight": 100
+    },
+    {
+      "keyword": "list of leagues",
+      "feature": 22,
+      "weight": 80
+    },
+    {
+      "keyword": "logo",
+      "feature": 3,
+      "weight": 100
+    },
+    {
+      "keyword": "main page",
+      "feature": 1,
+      "weight": 100
+    },
+    {
+      "keyword": "main teaser",
+      "feature": 6,
+      "weight": 100
+    },
+    {
+      "keyword": "Navigation",
+      "feature": 31,
+      "weight": 70
+    },
+    {
+      "keyword": "teaser on a main page",
+      "feature": 6,
+      "weight": 100
+    },
+    {
+      "keyword": "Yandex Metrica.",
+      "feature": 32,
+      "weight": 100
+    },
+    {
+      "keyword": "Yandex Metrica.",
+      "feature": 34,
+      "weight": 100
+    }
+  ],
+  "keyword_variables": [
+    {
+      "keyword": "banner on a main page",
+      "variable": "banner_teaser",
+      "weight": 80
+    },
+    {
+      "keyword": "contact",
+      "variable": "contact_features",
+      "weight": 100
+    },
+    {
+      "keyword": "contacts",
+      "variable": "contact_features",
+      "weight": 100
+    },
+    {
+      "keyword": "content system",
+      "variable": "user_management_roles",
+      "weight": 100
+    },
+    {
+      "keyword": "filters",
+      "variable": "filters_for_list",
+      "weight": 30
+    },
+    {
+      "keyword": "footer",
+      "variable": "repeat_footer",
+      "weight": 100
+    },
+    {
+      "keyword": "header",
+      "variable": "header_exist",
+      "weight": 80
+    },
+    {
+      "keyword": "header",
+      "variable": "footer_exist",
+      "weight": 100
+    },
+    {
+      "keyword": "leagues",
+      "variable": "product_page",
+      "weight": 100
+    },
+    {
+      "keyword": "list of",
+      "variable": "search_by_list",
+      "weight": 100
+    },
+    {
+      "keyword": "list of",
+      "variable": "data_loading_options",
+      "weight": 80
+    },
+    {
+      "keyword": "list of",
+      "variable": "filters_for_list",
+      "weight": 50
+    },
+    {
+      "keyword": "list of",
+      "variable": "product_page",
+      "weight": 100
+    },
+    {
+      "keyword": "list of leagues",
+      "variable": "data_loading_options",
+      "weight": 80
+    },
+    {
+      "keyword": "list of leagues",
+      "variable": "product_page",
+      "weight": 100
+    },
+    {
+      "keyword": "main menu",
+      "variable": "main_menu",
+      "weight": 80
+    },
+    {
+      "keyword": "main page",
+      "variable": "main_menu",
+      "weight": 80
+    },
+    {
+      "keyword": "menu",
+      "variable": "main_menu",
+      "weight": 80
+    }
+  ],
+  "variables": [
+    {
+      "variable": "main_menu",
+      "prompt": "Do you have a main menu in header?",
+      "type": "radio",
+      "default": "yes",
+      "options": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "variable": "main_menu_list",
+      "prompt": "Please, list the menu items here",
+      "type": "text",
+      "default": null,
+      "options": null
+    },
+    {
+      "variable": "repeat_header",
+      "prompt": "Should we repeat header on all sutes' pages?",
+      "type": "radio",
+      "default": "yes",
+      "options": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "variable": "header_exist",
+      "prompt": "do we have a header on a site?",
+      "type": "radio",
+      "default": "yes",
+      "options": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "variable": "footer_exist",
+      "prompt": "do we have a footer on a site?",
+      "type": "radio",
+      "default": "yes",
+      "options": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "variable": "banner_teaser",
+      "prompt": "Did you mean animated multislide teaser or just banner should be added here?",
+      "type": "radio",
+      "default": "teaser",
+      "options": [
+        "teaser",
+        "banner"
+      ]
+    },
+    {
+      "variable": "footer_content",
+      "prompt": "What should be added to the footer?",
+      "type": "checkbox",
+      "default": "all",
+      "options": [
+        "All Rights Reserved",
+        "Footer menu"
+      ]
+    },
+    {
+      "variable": "footer_menu_duplicate",
+      "prompt": "Should we duplicate main menu to footer",
+      "type": "radio",
+      "default": "yes",
+      "options": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "variable": "contact_email",
+      "prompt": "Please, enter a contact email for providing on a site",
+      "type": "text",
+      "default": null,
+      "options": null
+    },
+    {
+      "variable": "repeat_footer",
+      "prompt": "Should we repeat header on all sutes' pages?",
+      "type": "radio",
+      "default": "yes",
+      "options": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "variable": "search_by_list",
+      "prompt": "Should we add a search by list of items?",
+      "type": "radio",
+      "default": "yes",
+      "options": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "variable": "data_loading_options",
+      "prompt": "Choose how you can edit a content in your list",
+      "type": "checkbox",
+      "default": "form",
+      "options": [
+        "form ",
+        "excel parsing",
+        "API integration",
+        "scraping"
+      ]
+    },
+    {
+      "variable": "filters_for_list",
+      "prompt": "Should we add a filters for the  list?",
+      "type": "radio",
+      "default": "yes",
+      "options": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "variable": "item_description_list",
+      "prompt": "What data should we show  in a product  card?",
+      "type": "checkbox",
+      "default": "form",
+      "options": [
+        "logo",
+        "title"
+      ]
+    },
+    {
+      "variable": "item_other_descriptions_list",
+      "prompt": "Do you want to show any other specific information?",
+      "type": "text",
+      "default": null,
+      "options": null
+    },
+    {
+      "variable": "product_page",
+      "prompt": "Should we open a full item description on a separate page?",
+      "type": "radio",
+      "default": "yes",
+      "options": [
+        "yes",
+        "no"
+      ]
+    },
+    {
+      "variable": "specific_page_list",
+      "prompt": "Please, list parameters that you want to be added on a product page.",
+      "type": "text",
+      "default": null,
+      "options": null
+    },
+    {
+      "variable": "user_management_roles",
+      "prompt": "Please, choose users roles you need to add to your product",
+      "type": "checkbox",
+      "default": "administrator",
+      "options": [
+        "Owner",
+        "Administrator",
+        "Moderator",
+        "Follower"
+      ]
+    },
+    {
+      "variable": "contact_features",
+      "prompt": "Please, choose what  information you want to add on your contact  page",
+      "type": "checkbox",
+      "default": "contact form",
+      "options": [
+        "email",
+        "address",
+        "contact form",
+        "map"
+      ]
+    }
+  ],
+  "answers": [
+    {
+      "variable": "main_menu",
+      "answer": "yes",
+      "feature": 4,
+      "weight": 100
+    },
+    {
+      "variable": "repeat_header",
+      "answer": "yes",
+      "feature": 5,
+      "weight": 100
+    },
+    {
+      "variable": "repeat_header",
+      "answer": "yes",
+      "feature": 14,
+      "weight": 100
+    },
+    {
+      "variable": "header_exist",
+      "answer": "yes",
+      "feature": 2,
+      "weight": 100
+    },
+    {
+      "variable": "footer_exist",
+      "answer": "yes",
+      "feature": 8,
+      "weight": 100
+    },
+    {
+      "variable": "banner_teaser",
+      "answer": "teaser",
+      "feature": 6,
+      "weight": 100
+    },
+    {
+      "variable": "footer_content",
+      "answer": "All Rights Reserved",
+      "feature": 8,
+      "weight": 100
+    },
+    {
+      "variable": "footer_content",
+      "answer": "Footer menu",
+      "feature": 9,
+      "weight": 100
+    },
+    {
+      "variable": "footer_menu_duplicate",
+      "answer": "yes",
+      "feature": 10,
+      "weight": 100
+    },
+    {
+      "variable": "footer_menu_duplicate",
+      "answer": "no",
+      "feature": 11,
+      "weight": 100
+    },
+    {
+      "variable": "repeat_footer",
+      "answer": "yes",
+      "feature": 12,
+      "weight": 100
+    },
+    {
+      "variable": "repeat_footer",
+      "answer": "yes",
+      "feature": 15,
+      "weight": 100
+    },
+    {
+      "variable": "search_by_list",
+      "answer": "yes",
+      "feature": 16,
+      "weight": 100
+    },
+    {
+      "variable": "data_loading_options",
+      "answer": "form ",
+      "feature": 18,
+      "weight": 100
+    },
+    {
+      "variable": "data_loading_options",
+      "answer": "excel parsing",
+      "feature": 19,
+      "weight": 100
+    },
+    {
+      "variable": "data_loading_options",
+      "answer": "API integration",
+      "feature": 20,
+      "weight": 100
+    },
+    {
+      "variable": "data_loading_options",
+      "answer": "scraping",
+      "feature": 21,
+      "weight": 100
+    },
+    {
+      "variable": "filters_for_list",
+      "answer": "yes",
+      "feature": 23,
+      "weight": 100
+    },
+    {
+      "variable": "item_description_list",
+      "answer": "logo",
+      "feature": 25,
+      "weight": 100
+    },
+    {
+      "variable": "item_description_list",
+      "answer": "title",
+      "feature": 26,
+      "weight": 100
+    },
+    {
+      "variable": "product_page",
+      "answer": "no",
+      "feature": 29,
+      "weight": 100
+    },
+    {
+      "variable": "user_management_roles",
+      "answer": "Owner",
+      "feature": 36,
+      "weight": 100
+    },
+    {
+      "variable": "user_management_roles",
+      "answer": "Administrator",
+      "feature": 37,
+      "weight": 100
+    },
+    {
+      "variable": "user_management_roles",
+      "answer": "Moderator",
+      "feature": 38,
+      "weight": 100
+    },
+    {
+      "variable": "user_management_roles",
+      "answer": "Follower",
+      "feature": 39,
+      "weight": 100
+    },
+    {
+      "variable": "user_management_roles",
+      "answer": "Owner",
+      "feature": 35,
+      "weight": 100
+    },
+    {
+      "variable": "user_management_roles",
+      "answer": "Administrator",
+      "feature": 35,
+      "weight": 100
+    },
+    {
+      "variable": "user_management_roles",
+      "answer": "Moderator",
+      "feature": 35,
+      "weight": 100
+    },
+    {
+      "variable": "user_management_roles",
+      "answer": "Follower",
+      "feature": 35,
+      "weight": 100
+    },
+    {
+      "variable": "contact_features",
+      "answer": "contact form",
+      "feature": 41,
+      "weight": 100
+    },
+    {
+      "variable": "contact_features",
+      "answer": "email",
+      "feature": 42,
+      "weight": 100
+    },
+    {
+      "variable": "contact_features",
+      "answer": "address",
+      "feature": 43,
+      "weight": 100
+    },
+    {
+      "variable": "contact_features",
+      "answer": "map",
+      "feature": 44,
+      "weight": 100
+    }
+  ]
+}

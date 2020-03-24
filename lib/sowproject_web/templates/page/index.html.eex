@@ -1,18 +1,13 @@
-<div id="WorkStatement" style="height:680px;" class="col s12">
+<div id="WorkStatement" style="height:83vh;" class="col s12">
     <%= render "work_statement.html",assigns %>
 </div>
 <!--  ################################################################################# -->
-<div id="Budget" style="height:680px;" class="col s12">
+<div id="Budget" style="height:83vh;" class="col s12">
     <%= render "budget.html",assigns %>
 </div>
 <!--  ################################################################################# -->
-<div id="Timing" style="height:680px;" class="col s12">
-    <table style="height:650px; width:100%; overflow:hidden;">
-        <tr>
-            <td style="width:60% margin:0; padding:0">Diagram</td>
-            <td name="TaskArea" style="vertical-align:top; width:40%; border-left: 1px solid grey; margin:0; padding:0"></td>
-        </tr>
-    </table>
+<div id="Timing" style="height:83vh;" class="col s12">
+    <%= render "timing.html",assigns %>
 </div>
 <!--  ################################################################################# -->
 <div id="Documents" class="col s12">Documents
@@ -26,3 +21,7 @@
 <!--  ################################################################################# -->
 <div id="Developers" class="col s12">Developers
 </div>
+<script type="text/javascript">
+   changeTaskDescription()
+   config_autocomplete()
+</script>

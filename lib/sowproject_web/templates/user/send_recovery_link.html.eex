@@ -1,0 +1,13 @@
+<center>
+    <div class="container" style="top: 100px;">
+        <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+            <h1>Email sent!</h1>
+            <p>please check your <b>
+                    <%= @email %></b> inbox for instruction from us on how to reset your password</p>
+            <a class="indigo btn" style="margin:5px;" href="<%=Routes.session_path(@conn, :new) %>">Sign in</a><a style="margin:5px;" class="indigo btn" href="<%=Routes.user_path(@conn, :new) %>">Sign up</a>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+    <center>

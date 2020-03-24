@@ -1,6 +1,7 @@
 defmodule SowprojectWeb.SessionController do
   use SowprojectWeb, :controller
   plug(:scrub_params, "session" when action in ~w(create)a)
+  plug(:is_sign_in, "session" when action in ~w(new)a)
 
   def new(conn, _) do
     render(conn, "new.html")
@@ -23,6 +24,16 @@ defmodule SowprojectWeb.SessionController do
     conn
     |> Sowproject.Auth.logout()
     |> put_flash(:info, "See you later!")
-    |> redirect(to: Routes.session_path(conn, :new))
+    |> redirect(to: Routes.page_path(conn, :index))
+  end
+
+  def is_sign_in(conn, _params) do
+    if conn.assigns[:current_user] do
+      conn
+      |> redirect(to: Routes.page_path(conn, :index))
+      |> halt
+    else
+      conn
+    end
   end
 end

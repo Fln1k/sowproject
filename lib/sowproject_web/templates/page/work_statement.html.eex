@@ -1,23 +1,17 @@
-<div id="WSLeft" style="width: 40%; height:100%; display: inline-block; vertical-align:top; padding:0; marging:0;">
-    <div id="top" class="top" onresize="changeBottomHeight()">
-        <center>
-            <input id="ProjectTitle" placeholder="Type your project title" style="width: 60%; text-align: center;" oninput="changeTask()">
-        </center>
-        <textarea id="demo" style="width:100%; height:90%; resize: none;" placeholder="Type your project description here or upload a file(only docx available)"></textarea>
-    </div>
-    <div id="splitter-horizontal" class="splitter-horizontal" style="width:100.8%">
-    </div>
-    <div id="bottom" class="bottom" style="position: relative; background: #ffffff">
-        <div style="margin-bottom: 10px;">
-            <img style="vertical-align:middle; height: 50px; border-radius: 50%;" src="<%= Routes.static_path(@conn, "/images/bot_logo.png") %>">
-            <span style="font-size: 20px;">Sam</span>
+<div id="WSLeft" style="width: 40%; height:100%; display: inline-block; vertical-align:top; padding:0; margin:0; border-right: 0.3px solid #ededed;">
+    <div style="position: relative; height: 90%; border-right: 0.3px solid #ededed; border-bottom: 0.3px solid #ededed;">
+        <div style="margin-top:20px; margin-bottom: 10px;">
+            <div style="display:inline-block">
+                <span style="margin-left: 35%; font-size: 20px;">S.O.W.:</span>
+            </div>
         </div>
-        <div id="chatcontent" style="height: 75%; overflow: auto;">
+        <div id="chatcontent" class="" style="height: 88%; overflow: auto;">
         </div>
-        <input id="questioninput" style="position:absolute; width: 90%; margin: 0% 5%;" placeholder="Type your answer..." onkeydown="answer_input(this)">
+    </div>
+    <div id="chatinput" style="width: 90%; margin: 0% 5%;">
     </div>
 </div>
-<div name="TaskArea" style="padding:0; marging:0; display: inline-block; width: 58%; height:100%; overflow:hidden; border-left: 1px solid grey;">
+<div name="TaskArea" style="padding:0; margin:0; display: inline-block; width: 58%;  height:100%; overflow-y:auto;">
     <center id="blank_task" style="position:relative; top:20%; visibility: visible;">
         <div style="width:40%;">
             <img src="<%= Routes.static_path(@conn, "/images/blank_task_image.png") %>">
@@ -30,118 +24,288 @@
 <!-- -------------------------------------SCRIPTS------------------------------------- -->
 <!-- --------------------------------------------------------------------------------- -->
 <script>
-class Question {
-    constructor(promt, answers) {
-        this.promt = promt;
-        if (answers)
-            this.answers = [];
-        var counter = 0;
-        while (counter < answers.length) {
-            this.answers.push(new Answer(answers[counter], features[counter]));
-            ++counter;
-        }
+var features = []
+class Variable {
+    constructor(id, question_prompt, options, answer, model) {
+        this.id = id
+        this.question_prompt = question_prompt;
+        this.options = options;
+        this.model = model
+        this.answer = answer
     }
 }
 
-class Answer {
-    constructor(value, feature, ) {
+class Option {
+    constructor(id, value, feature) {
+        this.id = id;
         this.value = value;
         this.feature = feature;
     }
 }
 
 class Feature {
-    constructor(title, hours, budget) {
+    constructor(id, parent_id, title, hours, budget, description_template) {
+        this.id = id;
+        this.parent_id = parent_id
         this.title = title;
         this.hours = hours;
         this.budget = budget;
+        this.description_template = description_template
     }
 }
 
-var questions = []
-<%= for question <- @questions do %>
-    var answers = []
-    var feature_titles = []
-    var hours = []
-    var budget = []
-    <%= for answer <- question.answers do %>
-        answers.push("<%= answer %>")
-    <% end %>
-    <%= for feature <- question.features do %>
-        feature_titles.push("<%= if feature do feature else nil end %>")
-    <% end %>
-    <%= for hours <- question.hours do %>
-        hours.push("<%= if hours do hours else nil end %>")
-    <% end %>
-    <%= for budget <- question.budget do %>
-        budget.push("<%= if budget do budget else nil end %>")
-    <% end %>
-    features = []
-    for (var counter = 0; counter < answers.length; ++counter) {
-        if (feature_titles[counter])
-            features.push(new Feature(feature_titles[counter], hours[counter], budget[counter]))
-        else
-            features.push(false)
+class Result extends Feature {
+    constructor(id, parent_id, title, hours, budget, description_template, feature_id) {
+        super(id, parent_id, title, hours, budget, description_template)
+        this.feature_id = feature_id;
     }
-    questions.push(new Question(
-        "<%= question.promt %>",
-        answers,
-        features
-    ))
+}
+
+class Answer {
+    constructor(id, option_id, answer) {
+        this.id = id;
+        this.option_id = option_id;
+        this.answer = answer;
+    }
+}
+var md = window.markdownit();
+var variables = []
+var results = []
+var answer_for_template = " "
+var question_pointer = 0
+var description_chenged_times = 0;
+var project_title = "<%= if @project_title do @project_title else '' end %>"
+var project_description = "<%= if @project_description do @project_description else '' end %>"
+var budget_add_td = `
+<tr id="add" style="position:relative;z-index: 12;">
+    <td>
+        <div class="input-field col s12">
+          <input type="text" id="autocomplete-input" class="autocomplete" placeholder="Add">
+        </div>
+    </td>
+    <td><input placeholder="0" disabled></td>
+    <td><input placeholder="$ 0" disabled></td>
+    <td><input placeholder="$ 0" disabled></td>
+</tr>`
+if (project_title.length == 0) {
+    variables.push(
+        new Variable(
+            "0",
+            "Please Type Project Name",
+            false,
+            false,
+            "project_title"
+        )
+    )
+} else {
+    variables.push(
+        new Variable(
+            "0",
+            "Please Type Project Name",
+            [],
+            new Answer(
+                false,
+                false,
+                project_title,
+            ),
+            "answer"
+        )
+    )
+}
+if (project_description.length == 0) {
+    variables.push(
+        new Variable(
+            "0",
+            "Please Type Project description",
+            false,
+            false,
+            "project_description"
+        )
+    )
+} else {
+    variables.push(
+        new Variable(
+            "0",
+            "Please Type Project description",
+            [],
+            new Answer(
+                false,
+                false,
+                project_description,
+            ),
+            "answer"
+        )
+    )
+}
+
+<%= for result <- @results do %>
+results.push(
+    new Result(
+        <%=result.id%>,
+        <%=if result.parent_id do result.parent_id else false end%>,
+        "<%=javascript_escape(result.title) %>",
+        "<%=result.hours%>",
+        "<%=result.budget%>",
+        "<%=javascript_escape(result.description_template)%>",
+        <%= result.feature_id %>
+    )
+)
 <% end %>
 
-var demo = document.getElementById("demo")
-if (window.FileReader) {
-    function dragEvent(ev) {
-        ev.stopPropagation();
-        ev.preventDefault();
-        if (ev.type == 'drop') {
-            var reader = new FileReader();
-            reader.onloadend = function(ev) {
-                var arrayBuffer = this.result;
-                mammoth.extractRawText({ arrayBuffer: arrayBuffer }).then(function(resultObject) {
-                    demo.value = resultObject.value
-                })
-            };
-            reader.readAsArrayBuffer(ev.dataTransfer.files[0]);
+<%= for feature <- @features do %>
+features.push(
+    new Feature(
+        <%=feature.id%>,
+        <%=if feature.parent_id do feature.parent_id else false end%>,
+        "<%=javascript_escape(feature.title) %>",
+        "<%=feature.hours%>",
+        "<%=feature.budget%>",
+        "<%=javascript_escape(feature.description_template)%>"
+    )
+)
+<% end %>
+<%= for variable <- @variables do %>
+var options = []
+<%= for option <- variable.options do %>
+options.push(
+    new Option(
+        "<%= option.id %>",
+        "<%= option.value %>",
+        <%= if option.feature do %>
+        new Feature(
+            <%= if option.feature do option.feature.id end %>,
+            <%= if option.feature do option.feature.parent_id else nil end %>,
+            "<%= if option.feature do javascript_escape(option.feature.title) else nil end %>",
+            "<%= if option.feature do option.feature.hours else nil end %>",
+            "<%= if option.feature do option.feature.budget else nil end %>",
+            "<%= if option.feature do javascript_escape(option.feature.description_template) else nil end %>"
+        )
+        <% end %>
+    )
+)
+<% end %>
+variables.push(
+    new Variable(
+        "<%= variable.id %>",
+        "<%= javascript_escape(variable.promt) %>",
+        options,
+        <%= if variable.answer do %>
+        new Answer(
+            "<%= if variable.answer do variable.answer.id else nil end %>",
+            "<%= if variable.answer.option_id do variable.answer.option_id else nil end %>",
+            "<%= if variable.answer.answer  do variable.answer.answer else nil end %>"
+        ),
+        <% else %>
+        false,
+        <% end %>
+        "answer"
+    )
+)
+<% end %>
+
+function fill_all_features(id, items) {
+
+    removeDuplicates(results, id)
+    var result = '';
+    var children = childrenOf(id, items);
+    if (children.length) {
+        result = '<ol>';
+        children.forEach(function(child) {
+            result += '<li class = "numeric">';
+            result += child.title.replace(/{.*}/g, "") + "<br>" + child.description_template.replace(/{.*}/g, "");
+            result += fill_all_features(child.id, items);
+            result += '</li>';
+        });
+        result += '</ol>';
+    }
+    return result;
+}
+function prepare_results_for_budget(id, items) {
+    removeDuplicates(results, id)
+    var result = '';
+    var children = childrenOf(id, items);
+    if (children.length) {
+        if (id)
+            var additional = ''
+        else
+            var additional = ''
+        result = "";
+        children.forEach(function(child) {
+            var total_hours = parseFloat(child.hours, 10).toFixed(1)
+            var total_budget = parseFloat(child.budget, 10).toFixed(1)
+            result +=
+            `<tr id="` + child.id + `_price_tr"` + additional + ` >
+                <td><label><input type="checkbox" name="titlecheckbox" class="filled-in"><span style="font-size: 15px; color:black; font-weight: normal;">` + child.title + `</span></label></td>
+                <td>` + total_hours + `</td>
+                <td>$ ` + total_budget + `</td>
+                <td name="price_td">$ ` + parseFloat(total_hours * total_budget).toFixed(1) + `</td>
+            </tr>`
+            result +=  prepare_results_for_budget(child.id, items);
+            result += '</li>';
+        });
+        result += '</ol>';
+    }
+    return result;
+}
+
+function find_children_values(id,items,key){
+    var result = 0
+    var children = childrenOf(id,items)
+    children.forEach(function(child) {
+        result+=parseInt(child[key], 10);
+    });
+    return result
+}
+
+
+function fill_budget_table() {
+    document.getElementById("priceTable").children[1].innerHTML = document.getElementById("priceTable").children[1].innerHTML.split('<tr id="add" style="position:relative;z-index: 12;">')[0] + prepare_results_for_budget(false, results) + budget_add_td
+    remove_duplicates()
+    config_autocomplete()
+}
+
+function childrenOf(targetId, items) {
+    var children = [];
+    items.forEach(function(item) {
+        if (item.parent_id === targetId) {
+            children.push(item);
         }
-    }
-
-    demo.addEventListener('dragenter', dragEvent, false);
-    demo.addEventListener('dragover', dragEvent, false);
-    demo.addEventListener('drop', dragEvent, false);
+    });
+    return children;
 }
 
-function changeTask() {
+function autofill_feature(value) {
+    var TaskAreas = document.getElementsByName("TaskArea");
+    var feature = search_feature_by("title", value)
+    result_create_request(feature)
+}
+
+function config_autocomplete() {
+    $(document).ready(function() {
+        $('input.autocomplete').autocomplete({
+            data: {
+                <%= for feature <- @features do %>
+                "<%= javascript_escape(feature.title) %>": null,
+                <% end %>
+            },
+            minLength: 3,
+            onAutocomplete: function(suggestion) { autofill_feature(suggestion) }
+        });
+    });
+}
+
+function changeTaskDescription() {
     TaskAreas = document.getElementsByName("TaskArea");
-    split_task = TaskAreas[0].innerHTML.split("</h2>");
-    if (split_task[1])
-        old_task = split_task[1]
-    else
-        old_task = split_task[0].split('<div style="position:relative; top:5%; left:5%;">')[1]
-    var new_task = md.render('## ' + document.getElementById("ProjectTitle").value)
-    if (old_task) {
-        new_task += old_task
-    }
-    new_task=`<div style="position:relative; top:5%; left:5%;">`+new_task
-    TaskAreas.forEach(element => element.innerHTML = new_task)
-    check_blank()
+    var title = md.render('## ' + project_title)
+    fill_budget_table()
+    title = '<h2 style="font-weight: bold;" ' + title.slice(3)
+    if(project_title.length>0 || project_description.length>0)
+    {
+    TaskAreas.forEach(element => element.innerHTML = `<div name="taskcontent" style="position:relative; top:3%; left:5%;">` + title.replace(/<[\S]+?><\/[\S]+>/gim, "") + fill_all_features(false, results.sort(function(a, b) {
+        return a.feature_id - b.feature_id
+    })) + `</div>`)
 }
-
-function check_blank() {
-    task = document.getElementsByName("TaskArea")[0].innerHTML.replace(/<[\S]+?><\/[\S]+>/gim, "").replace(/\s/g, "");
-    if (task.length <= 52) {
-         TaskAreas.forEach(element => element.innerHTML = `
-    <center id="blank_task" style="position:relative; top:20%; visibility: visible;">
-        <div style="width:40%;">
-            <img src="<%= Routes.static_path(@conn, "/images/blank_task_image.png") %>">
-            <p>Nothing to formolize... yet</p>
-            <p style="opacity: 0.6">Start writing or upload a document to get formolized project description</p>
-        </div>
-    </center>
-        `)
     }
-}
 
 
 function CleanChildren(elem) {
@@ -156,91 +320,429 @@ function CleanChildren(elem) {
     }
 }
 
-$(".top").resizable({
-    handleSelector: ".splitter-horizontal",
-    resizeWidth: false,
-    onDrag: function f() {
-        document.getElementById("bottom").style.height =
-            (document.getElementById("WSLeft").offsetHeight -
-                document.getElementById("splitter-horizontal").offsetHeight -
-                document.getElementById("top").offsetHeight) + "px"
-    }
-});
-
-function answer_input(ele) {
-    if (event.key === 'Enter') {
-        var message = document.createElement("div")
-        message.setAttribute('class', 'usermessagediv slide-left');
-        message.setAttribute('style', 'margin-top:10px;');
-        message.textContent = ele.value
-        document.getElementById("chatcontent").appendChild(message)
-        ele.value = ""
-    }
-}
-generate_question(questions, questions.length - 1)
-
-function generate_question(questions, counter) {
-    question = questions[counter]
-    document.getElementById("chatcontent").innerHTML += '<div class="botmessagediv slide-right">' + question.promt + '</div>'
-    buttons = '<div class="slide-left" style="position: relative; right: -10%; margin-top: 10px; text-align: right;">'
-    for (const answer of question.answers) {
-        if (answer.feature)
-            var feature_title = answer.feature.title
-        else
-            var feature_title = ""
-        buttons += '<button name="answerbutton" class="waves-effect useranswerbutton" value="' + feature_title + '" onclick="add_feature(this,' + counter + ')">' + answer.value + '</button>'
-    }
-
-    buttons += '</div>'
-    document.getElementById("chatcontent").innerHTML += buttons
-}
-
-function search_feature_by_title(Key) {
-    for (var question_counter = 0; question_counter < questions.length; ++question_counter) {
-        if (questions[question_counter].answers) {
-            for (var answer_counter = 0; answer_counter < questions[question_counter].answers.length; ++answer_counter) {
-                if (questions[question_counter].answers[answer_counter].feature && questions[question_counter].answers[answer_counter].feature.title === Key) {
-                    return questions[question_counter].answers[answer_counter].feature;
+function find_option_by(key, value) {
+    for (const variable of variables) {
+        if (variable.options) {
+            for (const option of variable.options) {
+                if (option[key].toLowerCase() == value.toLowerCase()) {
+                    return option
                 }
             }
         }
     }
 }
 
-function add_feature(ele, counter) {
-    document.getElementsByName("answerbutton").forEach(button => button.disabled = true);
-    if (ele.value) {
-        TaskAreas = document.getElementsByName("TaskArea");
-        if (document.getElementById("ProjectTitle").value.length > 0)
-            var old_task = TaskAreas[0].innerHTML.split("</h2>")[1].slice(0, -6);
-        else
-        if (!document.getElementById("blank_task"))
-            var old_task = TaskAreas[0].innerHTML.split('<div style="position:relative; top:5%; left:5%;">')[1].slice(0, -6);
-        else
-            var old_task = ""
-        var title = md.render('## ' + document.getElementById("ProjectTitle").value)
-        var new_feature = md.render('##### ' + ele.value)
-        new_task = title + old_task + new_feature
-        TaskAreas.forEach(element => element.innerHTML = `<div style="position:relative; top:5%; left:5%;">` + new_task.replace(/<[\S]+?><\/[\S]+>/gim, "") + `</div>`)
-        feature = search_feature_by_title(ele.value)
-        document.getElementById("priceTable").children[1].innerHTML = document.getElementById("priceTable").children[1].innerHTML.split('<tr id="add">')[0] + `
-    <tr>
-        <td><label><input type="checkbox"name="titlecheckbox" class="filled-in"><span style="font-size: 15px; color:black; font-weight: normal;" onclick="select_event_before_check(this)">` + feature.title + `</span></label></td>
-        <td>` + feature.hours + `</td>
-        <td>$ ` + feature.budget + `</td>
-        <td name="price_td">$ ` + feature.hours * feature.budget + `</td>
-    </tr>
-    <tr id="add">
-        <td><input placeholder="Add"></td>
-        <td><input placeholder="0" disabled></td>
-        <td><input placeholder="$ 0" disabled></td>
-        <td><input placeholder="$ 0" disabled></td>
-    </tr>
-    `
-    document.getElementsByName('titlecheckbox').forEach(checkbox => checkbox.checked = false)
-    check_blank()
+function update_data_by_response(response) {
+    results = []
+    for (const variable of response.variables) {
+        var options = []
+        if (variable.options.length > 0) {
+            for (const option of variable.options) {
+                if (option.feature) {
+                    options.push(
+                        new Option(
+                            option.id,
+                            option.value,
+                            new Feature(
+                                option.feature.id,
+                                option.feature.parent_id,
+                                option.feature.title.replace(/&amp;/g, '&'),
+                                option.feature.hours,
+                                option.feature.budget,
+                                option.feature.description_template.replace(/&amp;/g, '&')
+                            )
+                        )
+                    )
+                } else {
+                    options.push(new Option(
+                        option.id,
+                        option.value,
+                        false))
+                }
+            }
+        }
+        if (variable.answer) {
+            variables.push(new Variable(
+                variable.id,
+                variable.promt,
+                options,
+                new Answer(
+                    variable.answer.id,
+                    variable.answer.option_id,
+                    variable.answer.answer,
+                ),
+                "answer"))
+        } else {
+            variables.push(new Variable(
+                variable.id,
+                variable.promt,
+                options,
+                false,
+                "answer"))
+
+        }
     }
-    if (counter > 0)
-        generate_question(questions, counter - 1)
+
+    for (const result of response.results) {
+        if (!result.parent_id) {
+            var parent_id = false
+        } else {
+            var parent_id = result.parent_id
+        }
+        results.push(new Result(
+            result.id,
+            parent_id,
+            result.title,
+            result.hours,
+            result.budget,
+            result.description_template,
+            result.feature_id
+        ))
+    }
+    variables = removeDuplicates(variables, "question_prompt")
+    changeTaskDescription()
+}
+
+function find_feature_by_placeholder(placeholder) {
+    for (const feature of features) {
+        var result = feature.description_template.match(/{.*}/g)
+        if (result) {
+            result = result[0].substring(1, result[0].length - 1)
+            if (result == placeholder)
+                return feature
+        }
+    }
+}
+
+function update_result_request(feature) {
+    var CSRF_TOKEN = <%= raw Poison.encode!(Plug.CSRFProtection.get_csrf_token()) %>;
+    $.ajax({
+        url: "callback/update/results",
+        type: "POST",
+        dataType: "json",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRF-Token", CSRF_TOKEN);
+        },
+        data: {
+            id: feature.id,
+            description_template: feature.description_template
+        },
+        success: function(response) {
+            update_data_by_response(response)
+        }
+    });
+}
+
+function option_input_send(ele) {
+  if (ele) {
+    event.key = 'Enter';
+    option_input(ele);
+  }
+}
+
+function option_input(ele) {
+    allow_array = ["questioninput", "optionbutton", "saved"]
+    if ((event && event.key === 'Enter') || allow_array.includes(ele.name)) {
+        var message = document.createElement("div")
+        var question = variables[question_pointer]
+        message.setAttribute('class', 'usermessagediv card');
+        message.setAttribute('style', 'margin-top:10px;');
+        if (ele.name == "optionbutton" || ele.name == "saved") {
+            message.textContent = ele.innerText
+        } else {
+            message.textContent = ele.value
+
+            if (ele.id == "questioninput") {
+                if (question.id != "0") {
+                    console.log(question)
+                    var feature = find_feature_by_placeholder(question.id)
+                    feature.description_template = feature.description_template.replace(/{.*}/g, message.textContent)
+                    update_result_request(feature)
+                }
+            }
+        }
+        question.answer.answer = ele.value
+        var div = document.createElement("div")
+        div.style = "display:block; text-align:right;"
+        div.appendChild(message)
+        document.getElementById("chatcontent").appendChild(div)
+        if (ele.name != "saved") {
+            var CSRF_TOKEN = <%= raw Poison.encode!(Plug.CSRFProtection.get_csrf_token()) %>;
+            if (question.model == "project_title") {
+                project_title = message.textContent
+                $.ajax({
+                    url: "/callback/update/user",
+                    type: "POST",
+                    dataType: "json",
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRF-Token", CSRF_TOKEN);
+                    },
+                    data: { "id": <%= @conn.assigns[:current_user].id %>, "project_title": project_title },
+                    success: function(response) {
+                        changeTaskDescription()
+                        setTimeout(function() {
+                            ele.value = ""
+                            question_pointer += 1
+                            generate_question(variables)
+                        }, 100);
+                    }
+                });
+            }
+            if (question.model == "project_description") {
+                if (description_chenged_times < 2) {
+                    question_pointer += 1
+                }
+                description_chenged_times += 1
+                project_description = project_description + " " + message.textContent
+                $.ajax({
+                    url: "/callback/update/user",
+                    type: "POST",
+                    dataType: "json",
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRF-Token", CSRF_TOKEN);
+                    },
+                    data: { "id": <%= @conn.assigns[:current_user].id %>, "project_description": project_description },
+                    success: function(response) {
+                        console.log(response)
+                        update_data_by_response(response)
+                        setTimeout(function() {
+                            ele.value = ""
+                            generate_question(variables)
+                        }, 100);
+                    }
+                });
+            }
+            if (question.model == "answer") {
+                var option = find_option_by("id", (question.id + message.textContent).toLowerCase())
+                if (option) {
+                    add_feature(option.feature)
+                    var option_id = option.id
+                    var answer = null
+                } else {
+                    var option_id = null
+                    var answer = message.textContent
+                }
+                $.ajax({
+                    url: "/callback/update/answer",
+                    type: "POST",
+                    dataType: "json",
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRF-Token", CSRF_TOKEN);
+                    },
+                    data: {
+                        "user_id": <%= @conn.assigns[:current_user].id %>,
+                        "variable_id": question.id,
+                        "option_id": option_id,
+                        "answer": answer
+
+                    },
+                    success: function(response) {
+                        console.log("answer succesfully saved");
+                        console.log(response);
+                        update_data_by_response(response)
+                        setTimeout(function() {
+                            ele.value = ""
+                            question_pointer += 1
+                            generate_question(variables)
+                        }, 100);
+                    }
+                });
+            }
+        }
+    }
+}
+
+function generate_question(variables) {
+    if (question_pointer < variables.length) {
+        variable = variables[question_pointer]
+        var message = document.createElement("div")
+        message.setAttribute('class', 'botmessagediv card');
+        message.textContent = variable.question_prompt
+        document.getElementById("chatcontent").appendChild(message)
+        if (!variable.answer) {
+            if (variable.options.length > 0) {
+                var buttons = document.createElement("div")
+                buttons.style = "position: relative; margin: 1%; text-align: right;"
+                for (const option of variable.options) {
+                    if (option.feature)
+                        var feature_title = option.feature.title.replace(/&amp;/g, '&')
+                    else
+                        var feature_title = ""
+                    button = document.createElement("button")
+                    button.setAttribute('name', 'optionbutton');
+                    button.setAttribute('class', 'waves-effect useranswerbutton');
+                    button.setAttribute('value', feature_title);
+                    button.setAttribute('onclick', 'option_input(this,' + question_pointer + ')');
+                    button.innerText = option.value
+                    buttons.appendChild(button)
+                }
+                document.getElementById("chatinput").innerHTML = ""
+                document.getElementById("chatinput").appendChild(buttons)
+            } else {
+                document.getElementById("chatinput").innerHTML = `
+                      <div class="input-field row">
+                        <i class="material-icons prefix col">attach_file</i>
+                        <input id="questioninput" onkeydown="option_input(this)" type="text" class="col" placeholder="Type your option..">
+                        <a href="#" class="btn btn-small col" onclick="option_input_send(document.querySelector('#questioninput'))">send</a>
+                      </div>
+                    `
+                document.getElementById("questioninput").focus();
+            }
+        } else {
+            button = document.createElement("button")
+            button.setAttribute('name', 'saved');
+            if (variable.answer.option_id)
+                option = find_option_by("id", variable.answer.option_id)
+            else
+                option = find_option_by("value", variable.answer.answer)
+            if (option) {
+                if (option.feature)
+                    button.setAttribute('value', option.feature.title.replace(/&amp;/g, '&'));
+                else
+                    button.setAttribute('value', "");
+                button.innerText = option.value
+            } else {
+                button.innerText = variable.answer.answer
+            }
+            option_input(button)
+            question_pointer += 1
+            generate_question(variables)
+        }
+
+    } else {
+        variables.push(
+            new Variable(
+                "0",
+                "Maybe you could provide more details about your project",
+                [],
+                false,
+                "project_description"
+            )
+        )
+        generate_question(variables)
+        document.getElementById("chatinput").innerHTML = `
+        <div class="input-field row">
+          <i class="material-icons prefix col">attach_file</i>
+          <input id="questioninput" onkeydown="option_input(this)" type="text" class="col" placeholder="Input...">
+          <a href="#" class="btn btn-small col" onclick="option_input_send(document.querySelector('#questioninput'))">send</a>
+        </div>
+        `
+        document.getElementById("questioninput").focus();
+    }
+    var elem = document.getElementById('chatcontent');
+    elem.scrollTop = elem.scrollHeight;
+}
+
+function removeDuplicates(myArr, prop) {
+    return myArr.filter((obj, pos, arr) => {
+        return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+    });
+}
+
+function search_feature_by(Key, Value) {
+    for (const feature of features) {
+        if (feature[Key] == Value) {
+            return feature;
+        }
+    }
+}
+
+function search_results_by(Key, Value) {
+    var finded_features = []
+    for (const feature of results) {
+        if (feature[Key] == Value) {
+            finded_features.push(feature);
+        }
+    }
+
+    return finded_features
+}
+
+function search_features_by(Key, Value) {
+    var finded_features = []
+    for (const feature of features) {
+        if (feature[Key] == Value) {
+            finded_features.push(feature);
+        }
+    }
+
+    return finded_features
+}
+
+function fill_feature_parents(feature) {
+    parents = ""
+    if (feature.parent_id) {
+        var feature = search_feature_by("id", feature.parent_id)
+        return (`
+<tr id='` + feature.id + `' >
+            <td><label><input type="checkbox"name="titlecheckbox" class="filled-in"><span style="font-size: 15px; color:black; font-weight: normal;" onclick="select_event_before_check(this)">` + feature.title + `</span></label></td>
+            <td>` + feature.hours + `</td>
+            <td>$ ` + feature.budget + `</td>
+            <td name="price_td">$ ` + feature.hours * feature.budget + `</td>
+        </tr>
+        ` + fill_feature_parents(feature))
+    } else
+        return ("")
+}
+
+function remove_duplicates() {
+    $('[id]').each(function() {
+        $(`[id='${this.id}']:gt(0)`).remove();
+    });
+    TaskAreas = document.getElementsByName("TaskArea");
+    TaskAreas.forEach(element => element.innerHTML = TaskAreas[0].innerHTML)
+}
+
+function result_create_request(feature) {
+    var CSRF_TOKEN = <%= raw Poison.encode!(Plug.CSRFProtection.get_csrf_token()) %>;
+    $.ajax({
+        url: "/createresults",
+        type: "POST",
+        dataType: "json",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRF-Token", CSRF_TOKEN);
+        },
+        data: {
+            id: feature.id,
+        },
+        success: function(response) {
+            update_data_by_response(response)
+            setTimeout(function() {
+                console.log("send result request")
+                console.log(feature)
+                changeTaskDescription()
+            }, 100);
+        }
+    });
+
+}
+
+function add_feature(feature) {
+    if (feature) {
+        result_create_request(feature)
+    }
+}
+
+function project_reset() {
+    var CSRF_TOKEN = <%= raw Poison.encode!(Plug.CSRFProtection.get_csrf_token()) %>;
+    $.ajax({
+        url: "/resetproject",
+        type: "DELETE",
+        dataType: "text",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRF-Token", CSRF_TOKEN);
+        },
+        data: {},
+        success: function(response) {
+            console.log("project reset")
+        }
+    });
+    setTimeout(function() {
+
+        document.location.reload(true);
+
+    }, 500);
+
+
 }
 </script>
