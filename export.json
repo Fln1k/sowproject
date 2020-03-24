@@ -240,7 +240,7 @@
       "parent_id": 24,
       "body": "other",
       "time": 0.0,
-      "budget": 0.0,
+      "budget": 0,
       "blocking": []
     },
     {
@@ -285,7 +285,7 @@
       "parent_id": 0,
       "body": "We should implement external services to follow users activity statistics.  ",
       "time": 0.0,
-      "budget": 0.0,
+      "budget": 0,
       "blocking": []
     },
     {
@@ -399,23 +399,28 @@
   ],
   "keyword_features": [
     {
-      "keyword": "Back ",
-      "feature": 31,
-      "weight": 10
-    },
-    {
-      "keyword": "Breadcrumbs",
-      "feature": 31,
+      "keyword": "main page",
+      "feature": 1,
       "weight": 100
     },
     {
-      "keyword": "contact",
-      "feature": 40,
+      "keyword": "logo",
+      "feature": 3,
       "weight": 100
     },
     {
-      "keyword": "contacts",
-      "feature": 40,
+      "keyword": "in header",
+      "feature": 2,
+      "weight": 100
+    },
+    {
+      "keyword": "main teaser",
+      "feature": 6,
+      "weight": 100
+    },
+    {
+      "keyword": "teaser on a main page",
+      "feature": 6,
       "weight": 100
     },
     {
@@ -424,7 +429,72 @@
       "weight": 100
     },
     {
+      "keyword": "leagues",
+      "feature": 13,
+      "weight": 100
+    },
+    {
+      "keyword": "list of leagues",
+      "feature": 13,
+      "weight": 100
+    },
+    {
+      "keyword": "leagues",
+      "feature": 17,
+      "weight": 100
+    },
+    {
+      "keyword": "list of leagues",
+      "feature": 17,
+      "weight": 100
+    },
+    {
+      "keyword": "list of",
+      "feature": 17,
+      "weight": 100
+    },
+    {
+      "keyword": "leagues",
+      "feature": 22,
+      "weight": 80
+    },
+    {
+      "keyword": "list of leagues",
+      "feature": 22,
+      "weight": 80
+    },
+    {
+      "keyword": "list of",
+      "feature": 22,
+      "weight": 80
+    },
+    {
+      "keyword": "list of leagues",
+      "feature": 22,
+      "weight": 80
+    },
+    {
+      "keyword": "Breadcrumbs",
+      "feature": 31,
+      "weight": 100
+    },
+    {
+      "keyword": "Navigation",
+      "feature": 31,
+      "weight": 70
+    },
+    {
+      "keyword": "Back ",
+      "feature": 31,
+      "weight": 10
+    },
+    {
       "keyword": "Google Analytics.",
+      "feature": 32,
+      "weight": 100
+    },
+    {
+      "keyword": "Yandex Metrica.",
       "feature": 32,
       "weight": 100
     },
@@ -434,116 +504,36 @@
       "weight": 100
     },
     {
-      "keyword": "in header",
-      "feature": 2,
-      "weight": 100
-    },
-    {
-      "keyword": "leagues",
-      "feature": 13,
-      "weight": 100
-    },
-    {
-      "keyword": "leagues",
-      "feature": 17,
-      "weight": 100
-    },
-    {
-      "keyword": "leagues",
-      "feature": 22,
-      "weight": 80
-    },
-    {
-      "keyword": "list of",
-      "feature": 17,
-      "weight": 100
-    },
-    {
-      "keyword": "list of",
-      "feature": 22,
-      "weight": 80
-    },
-    {
-      "keyword": "list of leagues",
-      "feature": 13,
-      "weight": 100
-    },
-    {
-      "keyword": "list of leagues",
-      "feature": 17,
-      "weight": 100
-    },
-    {
-      "keyword": "list of leagues",
-      "feature": 22,
-      "weight": 80
-    },
-    {
-      "keyword": "logo",
-      "feature": 3,
-      "weight": 100
-    },
-    {
-      "keyword": "main page",
-      "feature": 1,
-      "weight": 100
-    },
-    {
-      "keyword": "main teaser",
-      "feature": 6,
-      "weight": 100
-    },
-    {
-      "keyword": "Navigation",
-      "feature": 31,
-      "weight": 70
-    },
-    {
-      "keyword": "teaser on a main page",
-      "feature": 6,
-      "weight": 100
-    },
-    {
-      "keyword": "Yandex Metrica.",
-      "feature": 32,
-      "weight": 100
-    },
-    {
       "keyword": "Yandex Metrica.",
       "feature": 34,
+      "weight": 100
+    },
+    {
+      "keyword": "contact",
+      "feature": 40,
+      "weight": 100
+    },
+    {
+      "keyword": "contacts",
+      "feature": 40,
       "weight": 100
     }
   ],
   "keyword_variables": [
     {
-      "keyword": "banner on a main page",
-      "variable": "banner_teaser",
+      "keyword": "main page",
+      "variable": "main_menu",
       "weight": 80
     },
     {
-      "keyword": "contact",
-      "variable": "contact_features",
-      "weight": 100
+      "keyword": "main menu",
+      "variable": "main_menu",
+      "weight": 80
     },
     {
-      "keyword": "contacts",
-      "variable": "contact_features",
-      "weight": 100
-    },
-    {
-      "keyword": "content system",
-      "variable": "user_management_roles",
-      "weight": 100
-    },
-    {
-      "keyword": "filters",
-      "variable": "filters_for_list",
-      "weight": 30
-    },
-    {
-      "keyword": "footer",
-      "variable": "repeat_footer",
-      "weight": 100
+      "keyword": "menu",
+      "variable": "main_menu",
+      "weight": 80
     },
     {
       "keyword": "header",
@@ -556,14 +546,24 @@
       "weight": 100
     },
     {
-      "keyword": "leagues",
-      "variable": "product_page",
+      "keyword": "banner on a main page",
+      "variable": "banner_teaser",
+      "weight": 80
+    },
+    {
+      "keyword": "footer",
+      "variable": "repeat_footer",
       "weight": 100
     },
     {
       "keyword": "list of",
       "variable": "search_by_list",
       "weight": 100
+    },
+    {
+      "keyword": "list of leagues",
+      "variable": "data_loading_options",
+      "weight": 80
     },
     {
       "keyword": "list of",
@@ -576,34 +576,39 @@
       "weight": 50
     },
     {
+      "keyword": "filters",
+      "variable": "filters_for_list",
+      "weight": 30
+    },
+    {
+      "keyword": "leagues",
+      "variable": "product_page",
+      "weight": 100
+    },
+    {
+      "keyword": "list of leagues",
+      "variable": "product_page",
+      "weight": 100
+    },
+    {
       "keyword": "list of",
       "variable": "product_page",
       "weight": 100
     },
     {
-      "keyword": "list of leagues",
-      "variable": "data_loading_options",
-      "weight": 80
-    },
-    {
-      "keyword": "list of leagues",
-      "variable": "product_page",
+      "keyword": "content system",
+      "variable": "user_management_roles",
       "weight": 100
     },
     {
-      "keyword": "main menu",
-      "variable": "main_menu",
-      "weight": 80
+      "keyword": "contact",
+      "variable": "contact_features",
+      "weight": 100
     },
     {
-      "keyword": "main page",
-      "variable": "main_menu",
-      "weight": 80
-    },
-    {
-      "keyword": "menu",
-      "variable": "main_menu",
-      "weight": 80
+      "keyword": "contacts",
+      "variable": "contact_features",
+      "weight": 100
     }
   ],
   "variables": [
@@ -785,10 +790,10 @@
       "type": "checkbox",
       "default": "contact form",
       "options": [
-        "email",
-        "address",
+        "Email",
+        "Address",
         "contact form",
-        "map"
+        "Map"
       ]
     }
   ],

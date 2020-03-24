@@ -1,10 +1,6 @@
 use Mix.Config
 
 # Configure your database
-config :sowproject, Sowproject.Mailer,
-  adapter: Bamboo.LocalAdapter,
-  from: "support@app.scopeofwork.ai"
-
 config :sowproject, Sowproject.Repo,
   username: "postgres",
   password: "saynotorasizm",

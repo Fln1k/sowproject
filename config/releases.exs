@@ -45,15 +45,3 @@ config :sowproject, SowprojectWeb.Endpoint,
   ],
   secret_key_base: secret_key_base,
   server: true
-
-config :sowproject, Sowproject.Mailer,
-  adapter: Bamboo.SMTPAdapter,
-  server: "smtp.gmail.com",
-  port: 587,
-  username: System.fetch_env!("GMAIL_SMTP_USERNAME"),
-  password: System.fetch_env!("GMAIL_SMTP_PASSWORD"),
-  tls: :if_available,
-  ssl: false,
-  auth: :always,
-  retries: 1,
-  from: System.fetch_env!("GMAIL_SMTP_USERNAME")

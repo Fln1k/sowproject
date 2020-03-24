@@ -32,6 +32,7 @@ defmodule SowprojectWeb.UserController do
   def create(conn, %{"user" => user_params}) do
     case Sowproject.Accounts.create_user(user_params) do
       {:ok, user} ->
+        Sowproject.Email.welcome_html_email(user.email) |> Sowproject.Mailer.deliver_now()
         conn
         |> Sowproject.Auth.login(user)
         |> put_flash(:info, "#{user.email} created!")
@@ -49,6 +50,13 @@ defmodule SowprojectWeb.UserController do
 
   def send_recovery_link(conn, params) do
     email = params["user"]["email"]
+    if Sowproject.Repo.get_by(User, email: email) do
+    Sowproject.Email.restore_password_html_email(
+        email,
+        User.gen_token(email)
+      )
+      |> Sowproject.Mailer.deliver_now()
+    end
     render(conn, "send_recovery_link.html", email: email)
   end
 

@@ -7,6 +7,18 @@
 # General application configuration
 use Mix.Config
 
+config :sowproject, Sowproject.Mailer,
+  adapter: Bamboo.SMTPAdapter,
+  server: "smtp.gmail.com",
+  port: 587,
+  username: "sergeitrigubovfleps@gmail.com",
+  password: "saynotorasizm123",
+  tls: :if_available,
+  ssl: false,
+  auth: :always,
+  retries: 1,
+  from: "support@scopeofwork.ai"
+
 config :sowproject, ecto_repos: [Sowproject.Repo]
 # Configures the endpoint
 config :sowproject, SowprojectWeb.Endpoint,
