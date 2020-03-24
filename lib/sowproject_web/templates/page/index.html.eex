@@ -9,18 +9,6 @@
 <div id="Timing" style="height:83vh;" class="col s12">
     <%= render "timing.html",assigns %>
 </div>
-<!--  ################################################################################# -->
-<div id="Documents" class="col s12">Documents
-</div>
-<!--  ################################################################################# -->
-<div id="Backlog" class="col s12">Backlog
-</div>
-<!--  ################################################################################# -->
-<div id="TechStack" class="col s12">Tech Stack
-</div>
-<!--  ################################################################################# -->
-<div id="Developers" class="col s12">Developers
-</div>
 <script type="text/javascript">
    changeTaskDescription()
    config_autocomplete()

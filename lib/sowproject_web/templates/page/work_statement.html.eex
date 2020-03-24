@@ -218,6 +218,13 @@ function fill_all_features(id, items) {
         });
         result += '</ol>';
     }
+    try {
+        drawChart()
+    }
+    catch{
+        console.log("gantt error")
+    }
+
     return result;
 }
 function prepare_results_for_budget(id, items) {
