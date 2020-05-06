@@ -240,7 +240,7 @@
       "parent_id": 24,
       "body": "other",
       "time": 0.0,
-      "budget": 0,
+      "budget": 0.0,
       "blocking": []
     },
     {
@@ -285,7 +285,7 @@
       "parent_id": 0,
       "body": "We should implement external services to follow users activity statistics.  ",
       "time": 0.0,
-      "budget": 0,
+      "budget": 0.0,
       "blocking": []
     },
     {
